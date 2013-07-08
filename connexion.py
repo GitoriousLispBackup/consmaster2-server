@@ -6,7 +6,7 @@
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
 # FICHIER : connexion.py
 # CONTENU : Class Connexion (client)
-# USAGE   : new_a = Connexion(HOST, PORT, data, comp)
+# USAGE   : new_a = Connexion(data, comp, PORT, HOST)
 # VERSION : 0.1
 # LICENCE : GNU
 
@@ -39,7 +39,7 @@ class Connexion:
             return 1
 
         if (self.comp == "On"):
-            print("Compress Me")
+            #print("Compress Me")
             self.socketCreate()
         else:
             self.socketCreate()
