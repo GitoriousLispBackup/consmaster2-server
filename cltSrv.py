@@ -22,7 +22,7 @@ from codes import *
 #data = '{"action":"creatUser","data":{"nom": "Zola", "prenom":"Emile", "password":"emzo123", "droit":1}}'
 
 # Identification d'un utilisateur
-#data = '{"action":"identUser","data":{"nom": "Zola", "password":"emzo123"}}'
+#data = '{"action":"identUser","data":{"nom": "aqaq", "password":"emzo123"}}'
 
 # Suppression d'un utilisateur
 #data = '{"action":"delUser","data":{"id": 3}}'
@@ -40,21 +40,16 @@ data = '{"action":"listUser","data":{"prenom":"Emile","droit":1}}'
 #data = '{"action":"creatExo","data":{"level": 2, "type": "__NG__", "__ExoBase__": true, "lst": ["(1 2 (3 . 4))"]}}'
 
 # Loading des exercices
-#data = '{"action":"loadExo","data":{"type":"__GN__","__ExoBase__":1, "level":1}}'
+#data = '{"action":"loadExo","data":{"type":"__NG__","__ExoBase__":1, "level":2}}'
 
 # Suppression d'un exercice
-#data = '{"action":"delExo","data":{"id": 6}}'
+#data = '{"action":"delExoss","data":{"id": 2}}'
 
 #////////////////////////////////////////////////////////////////////////////
 
 new_s = Connexion(data)
 
-try:
-    print(new_s.erreur)
-except AttributeError:
-    print (new_s.result)
+print (new_s.result)
 
 #dataSon = json.loads(new_s.result)
 #print(dataSon["data"])
-
-print ("La suite...")

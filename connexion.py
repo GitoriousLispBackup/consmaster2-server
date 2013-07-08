@@ -35,6 +35,7 @@ class Connexion:
             json.loads(self.mess)
         except ValueError:
             self.erreur = ("Erreur: les données ne sont pas au format JSON")
+            self.result = '{"status":"error","code":"E_CJS","descrition":"Erreur: les données ne sont pas au format JSON."}'
             return 1
 
         if (self.comp == "On"):
@@ -51,6 +52,7 @@ class Connexion:
             #print ('Socket crée')
         except socket.error:
             self.erreur = ('Erreur: Impossible de créer un socket')
+            self.result = '{"status":"error","code":"E_CSO","descrition":"Erreur: Impossible de créer un socket."}'
             return 1
         self.connection()
 
@@ -61,6 +63,7 @@ class Connexion:
             self.remote_ip = socket.gethostbyname( self.host )
         except socket.gaierror:
             self.erreur = 'Erreur: Nom de l\'hôte ne peut être résolu.'
+            self.result = '{"status":"error","code":"E_CHO","descrition":"Erreur: Nom de l\'hôte ne peut être résolu."}'
             return 1
 
         try:
@@ -69,6 +72,7 @@ class Connexion:
             #print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
         except socket.error as e:
             self.erreur = "Erreur:Impossible de se connecter à " + self.host + " sur le port: " + str(self.port)
+            self.result = '{"status":"error","code":"E_CCO","Erreur:Impossible de se connecter à " + self.host + " sur le port: "' + str(self.port) + '}'
             return 1
 
         self.sendMessage()
@@ -80,36 +84,37 @@ class Connexion:
             self.s.sendall(bytes(self.mess, "utf-8"))
         except socket.error:
             self.erreur = 'Erreur: Impossible d\'envoiyer le message'
+            self.result = '{"status":"error","code":"E_CSE","descrition":"Erreur: Impossible d\'envoiyer le message"}'
             return 1
 
 
         #print ('Message envoyer avec succès')
 
-        def recv_timeout(the_socket,timeout=2):
-            # faire un socket non bloquante
-            the_socket.setblocking(0)
+        def reception(leSocket,timeOut=1):
+            # faire un socket non bloquant
+            leSocket.setblocking(0)
 
-            total_data=[];
+            allData=[];
             data='';
 
             #debut du temps
-            begin=time.time()
+            debut=time.time()
             while 1:
                 # si il y a des données, break après le timeout
-                if total_data and time.time()-begin > timeout:
+                if allData and time.time()-debut > timeOut:
                     break
 
                 # si il n'y a pas de données, attendre un peu plus longtemps.
-                elif time.time()-begin > timeout*2:
+                elif time.time()-debut > timeOut*2:
                     break
 
                 # réception
                 try:
-                    data = str(the_socket.recv(8192), "utf-8")
+                    data = str(leSocket.recv(1024), "utf-8")
                     if data:
-                        total_data.append(data)
+                        allData.append(data)
                         # modifier le temps de debut
-                        begin=time.time()
+                        debut=time.time()
                     else:
                         # dormir un certain temps pour indiquer un écart
                         time.sleep(0.1)
@@ -117,10 +122,10 @@ class Connexion:
                     pass
 
             # rejoindre toutes les parties de la chaîne
-            return ''.join(total_data)
+            return ''.join(allData)
 
         # obtenir la réponse
-        self.result = (recv_timeout(self.s))
+        self.result = (reception(self.s))
         # tester le resultat code erreur
 
         # ferme le socket

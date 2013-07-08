@@ -11,12 +11,10 @@
 
 import socketserver
 from codes import *
-import json
-import time
 from database import *
-import action
+import time
+from action import Action
 import logging
-
 
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
@@ -32,20 +30,15 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
               break
 
           if (data_len) < 1024:
-              # decode le format json
-              myJson = json.loads(myString)
-              # Appelle de la fonction
-              res = getattr(action, myJson["action"])(myJson["data"])
-              # fichier de log
-              logging.warning(str(self.client_address[0]) + " " + myJson["action"])
-
-              # envoie au client
-              self.request.sendall(bytes(res, 'utf-8'))
+              new_a = Action(myString)
+              #print(new_a.resultat)
+              logging.warning(str(self.client_address[0]) + " " + new_a.myJson["action"])
+              self.request.sendall(bytes(new_a.resultat, 'utf-8'))
 
 
 if __name__ == "__main__":
 
-
+    # Start logging
     logging.basicConfig(filename='serveur.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
     # Cree le serveur, liaison de l'adresse HOST sur le port PORT
