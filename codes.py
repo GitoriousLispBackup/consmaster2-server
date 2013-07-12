@@ -53,30 +53,52 @@ E_CSE = "Erreur: sendMessage"
 # Compression
 COMP = "Off"
 
-dic = {
+
+
+dicompress = {
   # action
        #   ' ':'',
-   '"action"':'ac',
-     '"data"':'da',
-     '"nom":':'no:',
-   '"prenom"':'pr',
- '"password"':'pa',
-    '"droit"':'dr',
-
+   '"action":':'ac:',
+     '"data":':'da:',
+      '"nom":':'no:',
+   '"prenom":':'pr:',
+ '"password":':'pa:',
+    '"droit":':'dr:',
 
  # exos
-    '"level"':'le',
-     '"type"':'ty',
-'"__ExoBase__"':'ex',
-  '"__NDN__"':'nd',
-      '"lst"':'ls',
-      '"dotted"':'do',
-      '"normal"':'nr',
+    '"level":':'le:',
+     '"type":':'ty:',
+'"__ExoBase__":':'ex:',
+  '"__NDN__"':'"ndn"',
+  '"__NG__"':'"ng"',
+  '"__GN__"':'"gn"',
+  '"__ExoBase__"':'"eb"',
+  '"__GraphExpr__"':'"ge"',
+      '"root":':'rt:',
+      '"graph":':'gr:',
+      '"#atom"':'"at"',
+      '"#cons"':'"cn"',
+      '"layout":':'la:',
+      '"lst":':'ls:',
+      '"dotted"':'"do"',
+      '"normal"':'"nr"',
 
+ # resultat
+    '"status":':'st:',
+    '"error":':'er:',
+    '"success":':'su:',
+    '"code":':'co:',
+    '"description":':'de:',
 
- '"listUser"':'lu',
-'"creatUser"':'cu',
- '"creatExo"':'ce'
+ # function action
+':"creatUser"':':cu',
+ ':"identUser"':':iu',
+ ':"delUser"':':du',
+ ':"listUser"':':lu',
+ ':"creatExo"':':ce',
+ ':"loadExo"':':lo',
+ ':"delExo"':':dl'
+ #':""':':',
 }
 
 
