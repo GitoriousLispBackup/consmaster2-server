@@ -70,7 +70,6 @@ dicompress = {
  # exos
     '"level":':'le:',
      '"type":':'ty:',
-'"__ExoBase__":':'ex:',
   '"__NDN__"':'"ndn"',
   '"__NG__"':'"ng"',
   '"__GN__"':'"gn"',

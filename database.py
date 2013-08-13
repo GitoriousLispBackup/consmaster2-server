@@ -54,19 +54,17 @@ class Exercice(Base):
 
     id = Column(Integer, primary_key=True)
     type = Column(String)
-    __ExoBase__ = Column(String)
     lst = Column(String)
     level = Column(Integer)
     created_date = Column(DateTime, default=datetime.utcnow)
 
-    def __init__(self, type, __ExoBase__, lst, level):
+    def __init__(self, type, lst, level):
         self.type = type
-        self.__ExoBase__ = __ExoBase__
         self.lst = lst
         self.level = level
 
     def __repr__(self):
-      return "<Exercice('%s','%s', '%s', '%s')>" % (self.type, self.__ExoBase__, self.lst, self.level)
+      return "<Exercice('%s', '%s', '%s')>" % (self.type, self.lst, self.level)
 
 
 engine = create_engine(BDD, echo=False)

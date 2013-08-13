@@ -38,15 +38,15 @@ from codes import *
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel exercice
-#data = '{"action":"creatExo","data":{"level": 3, "type": "__NG__", "__ExoBase__": true, "lst": ["(1 2 (3 . 4))"]}}'
+#data = '{"action":"creatExo","data":{"level": 3, "type": "__NG__", "lst": ["(1 2 (3 . 4))"]}}'
 
 # Loading des exercices
-#data = '{"action":"loadExo","data":{"type":"__NDN__","__ExoBase__":1, "level":2}}'
-#data = '{"action":"loadExo","data":{"type":"__NDN__","__ExoBase__":1}}'
-#data = '{"action":"loadExo","data":{"type":"__NG__"}}'
-#data = '{"action":"loadExo","data":{"__ExoBase__":1, "level":2}}'
 #data = '{"action":"loadExo","data":{"type":"__NDN__", "level":2}}'
-data = '{"action":"loadExo","data":{"id":3}}'
+#data = '{"action":"loadExo","data":{"type":"__NDN__"}}'
+data = '{"action":"loadExo","data":{"type":"__NG__"}}'
+#data = '{"action":"loadExo","data":{"level":2}}'
+#data = '{"action":"loadExo","data":{"type":"__NG__", "level":3}}'
+#data = '{"action":"loadExo","data":{"id":3}}'
 
 # Suppression d'un exercice
 #data = '{"action":"delExo","data":{"id": 14}}'
@@ -61,5 +61,7 @@ print("data", data)
 
 print (new_s.result)
 
-#dataSon = json.loads(new_s.result)
-#print (dataSon["data"])
+dataSon = json.loads(new_s.result)
+results = dataSon["data"]
+for entry in results:
+    print (entry["lst"])

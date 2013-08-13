@@ -108,7 +108,8 @@ class Action:
     def creatExo(self):  # Creation d'un nouvel exercice
       try:
           session = Session()
-          new_exo = Exercice(self.myJson["data"]["type"], self.myJson["data"]["__ExoBase__"] , str(self.myJson["data"]["lst"]), self.myJson["data"]["level"])
+          data = self.myJson["data"]
+          new_exo = Exercice(data["type"], str(data["lst"]), data["level"])
           session.add(new_exo)
           session.commit()
           insertId = str(new_exo.id)
@@ -127,11 +128,12 @@ class Action:
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = ""
-          for item in q:
-              response += ('{"id":' + str(item.id) +',"type":"'+ item.type +'","__ExoBase__":"'+ item.__ExoBase__ + '","level":"'+ str(item.level) +'","lst":"'+ item.lst +'"},')
+          response = ",".join(  '{"id":' + str(item.id) +
+                                ',"type":"'+ item.type + 
+                                '","level":"'+ str(item.level) +
+                                '","lst":"'+ item.lst +'"}' for item in q )
           session.close()
-          self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response[:-1] +']}'
+          self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
 
