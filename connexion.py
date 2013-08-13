@@ -7,7 +7,7 @@
 # FICHIER : connexion.py
 # CONTENU : Class Connexion (client)
 # USAGE   : new_a = Connexion(data, comp, PORT, HOST)
-# VERSION : 0.1
+# VERSION : 0.2
 # LICENCE : GNU
 
 import socket
@@ -15,6 +15,8 @@ import time
 from codes import *
 import json
 import sys
+from compress import *
+
 
 
 class Connexion:
@@ -40,6 +42,10 @@ class Connexion:
 
         if (self.comp == "On"):
             #print("Compress Me")
+            new_c = compression(self.mess)
+            new_c.dataCompression()
+            #print("compression 1:", new_c.comp)
+            self. mess = new_c.comp
             self.socketCreate()
         else:
             self.socketCreate()
@@ -72,7 +78,7 @@ class Connexion:
             #print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
         except socket.error as e:
             self.erreur = "Erreur:Impossible de se connecter à " + self.host + " sur le port: " + str(self.port)
-            self.result = '{"status":"error","code":"E_CCO","Erreur:Impossible de se connecter à " + self.host + " sur le port: "' + str(self.port) + '}'
+            self.result = '{"status":"error","code":"E_CCO","descrition":"Erreur:Impossible de se connecter à ' + self.host + ' sur le port: ' + str(self.port) + '"}'
             return 1
 
         self.sendMessage()
@@ -83,12 +89,13 @@ class Connexion:
             # Envoie les données au serveur
             self.s.sendall(bytes(self.mess, "utf-8"))
         except socket.error:
-            self.erreur = 'Erreur: Impossible d\'envoiyer le message'
+            self.erreur = 'Erreur: Impossible d\'envoyer le message'
             self.result = '{"status":"error","code":"E_CSE","descrition":"Erreur: Impossible d\'envoiyer le message"}'
             return 1
 
 
         #print ('Message envoyer avec succès')
+
 
         def reception(leSocket,timeOut=1):
             # faire un socket non bloquant
@@ -125,8 +132,19 @@ class Connexion:
             return ''.join(allData)
 
         # obtenir la réponse
-        self.result = (reception(self.s))
-        # tester le resultat code erreur
+        resul = reception(self.s)
+        #print(resul)
+        new_d = decompression(resul)
+        myrecomp = new_d.dataDecompression()
 
+        if (new_d.recomp == "On"):
+            #print(new_d.recomp)
+            self.result =  myrecomp
+        else : self.result = (resul)
         # ferme le socket
         self.s.close()
+
+        #decom(resul)
+
+
+

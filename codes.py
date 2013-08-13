@@ -6,13 +6,13 @@
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
 # FICHIER : code.py
 # CONTENU : codes
-# VERSION : 0.1
+# VERSION : 0.2
 # LICENCE : GNU
 
 
 # Connexion au serveur
 HOST = "localhost"
-PORT = 9991
+PORT = 9992
 
 
 # Code Erreur Action
@@ -27,6 +27,7 @@ E_AED = "Erreur: delExo"
 
 E_AJS = "Erreur: JSON format"
 E_AGA = "Erreur: pas de fonction de ce nom"
+E_SRL = "Erreur: pas de variable action"
 
 # Code Success Action
 S_AUC = "creatUser"
@@ -52,6 +53,7 @@ E_CSE = "Erreur: sendMessage"
 
 # Compression
 COMP = "Off"
+#COMP = "On"
 
 
 
@@ -72,7 +74,6 @@ dicompress = {
   '"__NDN__"':'"ndn"',
   '"__NG__"':'"ng"',
   '"__GN__"':'"gn"',
-  '"__ExoBase__"':'"eb"',
   '"__GraphExpr__"':'"ge"',
       '"root":':'rt:',
       '"graph":':'gr:',
@@ -85,8 +86,8 @@ dicompress = {
 
  # resultat
     '"status":':'st:',
-    '"error":':'er:',
-    '"success":':'su:',
+    ':"error"':':er',
+    ':"success"':':su',
     '"code":':'co:',
     '"description":':'de:',
 
@@ -98,7 +99,6 @@ dicompress = {
  ':"creatExo"':':ce',
  ':"loadExo"':':lo',
  ':"delExo"':':dl'
- #':""':':',
 }
 
 

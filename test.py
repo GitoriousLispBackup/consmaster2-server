@@ -19,7 +19,7 @@ import json
 from connexion import Connexion
 import codes
 import time
-import compress/text_huffman
+
 
 error = []
 
@@ -118,6 +118,3 @@ if __name__ == "__main__":
             print (item)
         print("##############################################################")
 
-
-    dede = code_huffman ('{"action":"listUser","data":{"prenom":"Emile","droit":1}}')
-    print(decode_huffman (dede))

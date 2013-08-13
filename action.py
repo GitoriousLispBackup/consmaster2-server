@@ -7,7 +7,7 @@
 # FICHIER : action.py
 # CONTENU : fonctions utilisateur: creation, identification, suppression, listing.
 #           fonctions exercices: creation, suppression, loading.
-# VERSION : 0.1
+# VERSION : 0.2
 # LICENCE : GNU
 
 from database import *
@@ -19,7 +19,7 @@ class Action:
     def __init__(self, myString) :
         self.myString = myString
         self.resultat = ''
-
+        #print(self.myString)
         # Verifie si la chaine est au format JSON
         try:
             self.myJson = json.loads(myString)
@@ -87,7 +87,10 @@ class Action:
           session = Session()
           q = session.query(User)
           for item, value in self.myJson["data"].items():
-              q = q.filter(getattr(User, item).like("%%%s%%" % value))
+              if(item == "id"):
+                  q = q.filter(User.id==value)
+              else :
+                  q = q.filter(getattr(User, item).like("%%%s%%" % value))
           session.commit()
           response = ""
           for item in q:
@@ -114,17 +117,19 @@ class Action:
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
 
-
     def loadExo(self):  # Loading des exercices
       try:
           session = Session()
           q = session.query(Exercice)
           for item, value in self.myJson["data"].items():
-              q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
+              if(item == "id"):
+                  q = q.filter(Exercice.id==value)
+              else :
+                  q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
           response = ""
           for item in q:
-              response += ('{"id":' + str(item.id) +',"type":"'+ item.type +'","__ExoBase__":"'+ item.__ExoBase__ + '","level":"'+ str(item.level) +'", ,"lst":"'+ item.lst +'"}, ')
+              response += ('{"id":' + str(item.id) +',"type":"'+ item.type +'","__ExoBase__":"'+ item.__ExoBase__ + '","level":"'+ str(item.level) +'","lst":"'+ item.lst +'"},')
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response[:-1] +']}'
       except Exception as e:
