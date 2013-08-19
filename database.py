@@ -33,20 +33,24 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    nom = Column(String, nullable = False, unique = True)
+    nickname = Column(String, nullable = False, unique = True)
+    nom = Column(String)
     prenom = Column(String)
+    email = Column(String)
     password = Column(String)
     droit = Column(Integer)
     created_date = Column(DateTime, default=datetime.utcnow)
 
-    def __init__(self, nom, prenom, password, droit):
+    def __init__(self, nickname, nom, prenom, email, password, droit):
+        self.nickname = nickname
         self.nom = nom
         self.prenom = prenom
+        self.email = email
         self.password = password
         self.droit = droit
 
     def __repr__(self):
-      return "<User('%s','%s', '%s', '%s')>" % (self.nom, self.prenom, self.password, self.droit)
+      return "<User('%s', '%s','%s','%s','%s','%s')>" % (self.nickname, self.nom, self.prenom, self.email, self.password, self.droit)
 
 
 class Exercice(Base):
@@ -54,19 +58,17 @@ class Exercice(Base):
 
     id = Column(Integer, primary_key=True)
     type = Column(String)
-    __ExoBase__ = Column(String)
     lst = Column(String)
     level = Column(Integer)
     created_date = Column(DateTime, default=datetime.utcnow)
 
-    def __init__(self, type, __ExoBase__, lst, level):
+    def __init__(self, type, lst, level):
         self.type = type
-        self.__ExoBase__ = __ExoBase__
         self.lst = lst
         self.level = level
 
     def __repr__(self):
-      return "<Exercice('%s','%s', '%s', '%s')>" % (self.type, self.__ExoBase__, self.lst, self.level)
+      return "<Exercice('%s', '%s', '%s')>" % (self.type, self.lst, self.level)
 
 
 engine = create_engine(BDD, echo=False)

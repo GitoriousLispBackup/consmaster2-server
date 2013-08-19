@@ -6,7 +6,7 @@
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
 # FICHIER : cltSrv.py
 # CONTENU : client : Exemples d'utilisation de dialogues client / serveur
-# VERSION : 0.1
+# VERSION : 0.2
 # LICENCE : GNU
 
 import json
@@ -14,23 +14,38 @@ from connexion import Connexion
 from codes import *
 
 
+# 0
+nickname = "superU"
+password = "superU"
+
+# 1
+#nickname = "JD"
+#password = "jd123"
+
+# 2
+#nickname = "JD2"
+#password = "jd123"
+
+#nickname = ""
+#password = ""
+
 #////////////////////////////////////////////////////////////////////////////
 #   USAGE: UTILISATEURS
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel utilisateur
-#data = '{"action":"creatUser","data":{"nom": "Zola", "prenom":"Emile", "password":"emzo123", "droit":1}}'
+data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD5", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
 
 # Identification d'un utilisateur
-#data = '{"action":"identUser","data":{"nom": "Zola", "password":"emzo123"}}'
+#data = '{"action":"identUser","nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"nickname": "JD4", "password":"jd123"}}'
 
 # Suppression d'un utilisateur
-#data = '{"action":"delUser","data":{"id": 41}}'
+#data = '{"action":"delUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"id": 4}}'
 
 # Listing des utilisateurs
-#data = '{"action":"listUser","data":{"prenom":"Emile","droit":1}}'
-#data = '{"action":"listUser","data":{"droit":1}}'
-#data = '{"action":"listUser","data":{"id":2}}'
+#data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"prenom":"Emile", "droit":2}}'
+#data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"droit":2}}'
+#data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id":2}}'
 
 
 #////////////////////////////////////////////////////////////////////////////
@@ -38,18 +53,17 @@ from codes import *
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel exercice
-#data = '{"action":"creatExo","data":{"level": 3, "type": "__NG__", "__ExoBase__": true, "lst": ["(1 2 (3 . 4))"]}}'
+#data = '{"action":"creatExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type": "__NG__", "lst": ["(1 2 (3 . 4))"]}}'
 
 # Loading des exercices
-#data = '{"action":"loadExo","data":{"type":"__NDN__","__ExoBase__":1, "level":2}}'
-#data = '{"action":"loadExo","data":{"type":"__NDN__","__ExoBase__":1}}'
-#data = '{"action":"loadExo","data":{"type":"__NG__"}}'
-#data = '{"action":"loadExo","data":{"__ExoBase__":1, "level":2}}'
-#data = '{"action":"loadExo","data":{"type":"__NDN__", "level":2}}'
-data = '{"action":"loadExo","data":{"id":3}}'
+#data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type":"__NDN__"}}'
+#data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"type":"__NDN__"}}'
+#data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type":"__NDN__"}}'
+#data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 2, "type":"__NG__"}}'
+#data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "id":3}}'
 
 # Suppression d'un exercice
-#data = '{"action":"delExo","data":{"id": 14}}'
+#data = '{"action":"delExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id": 3}}'
 
 #////////////////////////////////////////////////////////////////////////////
 
@@ -61,5 +75,7 @@ print("data", data)
 
 print (new_s.result)
 
-#dataSon = json.loads(new_s.result)
-#print (dataSon["data"])
+dataSon = json.loads(new_s.result)
+#results = dataSon["data"]
+#for entry in results:
+    #print (entry["lst"])

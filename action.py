@@ -19,12 +19,14 @@ class Action:
     def __init__(self, myString) :
         self.myString = myString
         self.resultat = ''
-        #print(self.myString)
+        self.droit = 2
         # Verifie si la chaine est au format JSON
         try:
             self.myJson = json.loads(myString)
         except Exception as e:
             self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
+
+        self.userExist()
 
         # Va executer l'action desirer
         try:
@@ -33,18 +35,38 @@ class Action:
             self.resultat = '{"status":"error","code":"E_AGA","description":"'+ str(e) +'"}'
 
 
+
+    def userExist(self):
+      try:
+          session = Session()
+          res = session.query(User). \
+                    filter(User.nickname == self.myJson["nickname"]). \
+                    filter(User.password == self.myJson["password"]).all()
+          session.commit()
+
+          self.droit = res[0].droit
+
+          session.close()
+      except Exception as e:
+          pass
+
+
     #////////////////////////////////////////////////////////////////////////////
     #     UTILISATEUR
     #////////////////////////////////////////////////////////////////////////////
 
     def creatUser(self):  # Creation d'un nouvel utilisateur
+      if(self.droit == 0):
+          droit = self.myJson["data"]["droit"]
+      else : droit = "2"
+
       try:
           session = Session()
-          res = session.query(User).filter(User.nom == self.myJson["data"]["nom"]).first()
+          res = session.query(User).filter(User.nickname == self.myJson["data"]["nickname"]).first()
           if res:
               self.resultat =  '{"status":"error","code":"E_AUC","description":"utilisateur deja existant"}'
           else:
-              new_user = User(self.myJson["data"]["nom"], self.myJson["data"]["prenom"], self.myJson["data"]["password"], self.myJson["data"]["droit"])
+              new_user = User(self.myJson["data"]["nickname"], self.myJson["data"]["nom"], self.myJson["data"]["prenom"], self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
               session.add(new_user)
               session.commit()
               insertId = str(new_user.id)
@@ -53,12 +75,11 @@ class Action:
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ str(e) +'"}'
 
-
     def identUser(self):  # Identification d'un utilisateur
       try:
           session = Session()
           res = session.query(User). \
-                    filter(User.nom == self.myJson["data"]["nom"]). \
+                    filter(User.nickname == self.myJson["data"]["nickname"]). \
                     filter(User.password == self.myJson["data"]["password"]).all()
           session.commit()
 
@@ -71,34 +92,40 @@ class Action:
 
 
     def delUser(self):  # Suppression d'un utilisateur
-      try:
-          session = Session()
-          res = session.query(User).filter(User.id==self.myJson["data"]["id"]).first()
-          session.delete(res)
-          session.commit()
-          session.close()
-          self.resultat =  '{"status":"success","code":"S_AUD","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
-      except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ str(e) +'"}'
-
+      if(self.droit == 0):
+          try:
+              session = Session()
+              res = session.query(User).filter(User.id==self.myJson["data"]["id"]).first()
+              session.delete(res)
+              session.commit()
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_AUD","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ str(e) +'"}'
+      else :
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
     def listUser(self):  # listing des utilisateurs
-      try:
-          session = Session()
-          q = session.query(User)
-          for item, value in self.myJson["data"].items():
-              if(item == "id"):
-                  q = q.filter(User.id==value)
-              else :
-                  q = q.filter(getattr(User, item).like("%%%s%%" % value))
-          session.commit()
-          response = ""
-          for item in q:
-              response += ('{"id":' + str(item.id) +',"nom":"'+ item.nom +'","prenom":"'+ item.prenom + '"},')
-          session.close()
-          self.resultat =  '{"status":"success","code":"S_AUL","data":['+ response[:-1] +']}'
-      except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ str(e) +'"}'
+      if(self.droit <= 1):
+          try:
+              session = Session()
+              q = session.query(User)
+              print(self.myJson["data"])
+              for item, value in self.myJson["data"].items():
+                  if(item == "id"):
+                      q = q.filter(User.id==value)
+                  else :
+                      q = q.filter(getattr(User, item).like("%%%s%%" % value))
+              session.commit()
+              response = ""
+              for item in q:
+                  response += ('{"id":' + str(item.id) +',"nom":"'+ item.nom +'","prenom":"'+ item.prenom + '","email":"'+ item.email + '"},')
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_AUL","data":['+ response[:-1] +']}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ str(e) +'"}'
+      else :
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
 
     #////////////////////////////////////////////////////////////////////////////
@@ -106,16 +133,20 @@ class Action:
     #////////////////////////////////////////////////////////////////////////////
 
     def creatExo(self):  # Creation d'un nouvel exercice
-      try:
-          session = Session()
-          new_exo = Exercice(self.myJson["data"]["type"], self.myJson["data"]["__ExoBase__"] , str(self.myJson["data"]["lst"]), self.myJson["data"]["level"])
-          session.add(new_exo)
-          session.commit()
-          insertId = str(new_exo.id)
-          session.close()
-          self.resultat =  '{"status":"success","code":"S_AEC","data":{"id":'+insertId+'}}'
-      except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
+      if(self.droit == 0):
+          try:
+              session = Session()
+              data = self.myJson["data"]
+              new_exo = Exercice(data["type"], str(data["lst"]), data["level"])
+              session.add(new_exo)
+              session.commit()
+              insertId = str(new_exo.id)
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_AEC","data":{"id":'+insertId+'}}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
+      else :
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
     def loadExo(self):  # Loading des exercices
       try:
@@ -127,23 +158,27 @@ class Action:
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = ""
-          for item in q:
-              response += ('{"id":' + str(item.id) +',"type":"'+ item.type +'","__ExoBase__":"'+ item.__ExoBase__ + '","level":"'+ str(item.level) +'","lst":"'+ item.lst +'"},')
+          response = ",".join(  '{"id":' + str(item.id) +
+                                ',"type":"'+ item.type +
+                                '","level":"'+ str(item.level) +
+                                '","lst":"'+ item.lst +'"}' for item in q )
           session.close()
-          self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response[:-1] +']}'
+          self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
 
 
     def delExo(self):  # Suppression d'un exercice
-      try:
-          session = Session()
-          res = session.query(Exercice).filter(Exercice.id==self.myJson["data"]["id"]).first()
-          session.delete(res)
-          session.commit()
-          session.close()
-          self.resultat =  '{"status":"success","code":"S_AED","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
-      except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AED","description":"'+ str(e) +'"}'
+      if(self.droit == 0):
+          try:
+              session = Session()
+              res = session.query(Exercice).filter(Exercice.id==self.myJson["data"]["id"]).first()
+              session.delete(res)
+              session.commit()
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_AED","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_AED","description":"'+ str(e) +'"}'
+      else :
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
