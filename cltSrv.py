@@ -34,7 +34,7 @@ password = "superU"
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel utilisateur
-data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD5", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
+#data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD5", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
 
 # Identification d'un utilisateur
 #data = '{"action":"identUser","nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"nickname": "JD4", "password":"jd123"}}'
@@ -53,7 +53,7 @@ data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ pass
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel exercice
-<<<<<<< HEAD
+
 #data = '{"action":"creatExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type": "__NG__", "lst": ["(1 2 (3 . 4))"]}}'
 
 # Loading des exercices
@@ -62,17 +62,7 @@ data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ pass
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type":"__NDN__"}}'
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 2, "type":"__NG__"}}'
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "id":3}}'
-=======
-#data = '{"action":"creatExo","data":{"level": 3, "type": "__NG__", "lst": ["(1 2 (3 . 4))"]}}'
 
-# Loading des exercices
-#data = '{"action":"loadExo","data":{"type":"__NDN__", "level":2}}'
-#data = '{"action":"loadExo","data":{"type":"__NDN__"}}'
-data = '{"action":"loadExo","data":{"type":"__NG__"}}'
-#data = '{"action":"loadExo","data":{"level":2}}'
-#data = '{"action":"loadExo","data":{"type":"__NG__", "level":3}}'
-#data = '{"action":"loadExo","data":{"id":3}}'
->>>>>>> 8a8d74b02b962d888188c8ac2aefafdc35d9bfb2
 
 # Suppression d'un exercice
 #data = '{"action":"delExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id": 3}}'
@@ -88,12 +78,7 @@ print("data", data)
 print (new_s.result)
 
 dataSon = json.loads(new_s.result)
-<<<<<<< HEAD
 #results = dataSon["data"]
 #for entry in results:
     #print (entry["lst"])
-=======
-results = dataSon["data"]
-for entry in results:
-    print (entry["lst"])
->>>>>>> 8a8d74b02b962d888188c8ac2aefafdc35d9bfb2
+

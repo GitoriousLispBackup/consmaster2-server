@@ -133,7 +133,6 @@ class Action:
     #////////////////////////////////////////////////////////////////////////////
 
     def creatExo(self):  # Creation d'un nouvel exercice
-<<<<<<< HEAD
       if(self.droit == 0):
           try:
               session = Session()
@@ -148,19 +147,6 @@ class Action:
               self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
-=======
-      try:
-          session = Session()
-          data = self.myJson["data"]
-          new_exo = Exercice(data["type"], str(data["lst"]), data["level"])
-          session.add(new_exo)
-          session.commit()
-          insertId = str(new_exo.id)
-          session.close()
-          self.resultat =  '{"status":"success","code":"S_AEC","data":{"id":'+insertId+'}}'
-      except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
->>>>>>> 8a8d74b02b962d888188c8ac2aefafdc35d9bfb2
 
     def loadExo(self):  # Loading des exercices
       try:
@@ -173,11 +159,7 @@ class Action:
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
           response = ",".join(  '{"id":' + str(item.id) +
-<<<<<<< HEAD
                                 ',"type":"'+ item.type +
-=======
-                                ',"type":"'+ item.type + 
->>>>>>> 8a8d74b02b962d888188c8ac2aefafdc35d9bfb2
                                 '","level":"'+ str(item.level) +
                                 '","lst":"'+ item.lst +'"}' for item in q )
           session.close()
