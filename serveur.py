@@ -38,7 +38,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
               break
 
           if (data_len) < 1024:
-              #print("myString srv", myString)
               new_d = decompression(myString)
               myString = new_d.dataDecompression()
               new_a = Action(myString)
