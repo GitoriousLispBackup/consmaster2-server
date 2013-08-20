@@ -65,13 +65,14 @@ class Action:
           if res:
               self.resultat =  '{"status":"error","code":"E_AUC","description":"utilisateur deja existant"}'
           else:
-              new_user = User(self.myJson["data"]["nickname"], self.myJson["data"]["nom"], self.myJson["data"]["prenom"], self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
+              new_user = User(self.myJson["data"]["nickname"], self.myJson["data"].get("nom"), self.myJson["data"].get("prenom"), self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
               session.add(new_user)
               session.commit()
               insertId = str(new_user.id)
               session.close()
               self.resultat = '{"status":"success","code":"S_AUC","data":{"id":'+insertId+'}}'
       except Exception as e:
+          print(repr(e))
           self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ E_AUC +'"}'
 
     def identUser(self):  # Identification d'un utilisateur
