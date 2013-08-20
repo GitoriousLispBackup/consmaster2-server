@@ -33,12 +33,12 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    nickname = Column(String, nullable = False, unique = True)
+    nickname = Column(String, nullable=False, unique=True)
     nom = Column(String)
     prenom = Column(String)
     email = Column(String)
-    password = Column(String)
-    droit = Column(Integer)
+    password = Column(String, nullable=False)
+    droit = Column(Integer, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, nickname, nom, prenom, email, password, droit):
@@ -57,18 +57,20 @@ class Exercice(Base):
     __tablename__ = 'exos'
 
     id = Column(Integer, primary_key=True)
-    type = Column(String)
-    lst = Column(String)
-    level = Column(Integer)
+    name = Column(String)
+    type = Column(String, nullable=False)
+    level = Column(Integer, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
+    lst = Column(String, nullable=False)
 
-    def __init__(self, type, lst, level):
+    def __init__(self, name, type, level, lst):
+        self.name = name
         self.type = type
-        self.lst = lst
         self.level = level
+        self.lst = lst
 
     def __repr__(self):
-      return "<Exercice('%s', '%s', '%s')>" % (self.type, self.lst, self.level)
+      return "<Exercice('%s' '%s', '%s', '%s')>" % (self.name, self.type, self.level, self.lst)
 
 
 engine = create_engine(BDD, echo=False)

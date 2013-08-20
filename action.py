@@ -55,9 +55,10 @@ class Action:
     #////////////////////////////////////////////////////////////////////////////
 
     def creatUser(self):  # Creation d'un nouvel utilisateur
-      if(self.droit == 0):
+      if self.droit == 0:
           droit = self.myJson["data"]["droit"]
-      else : droit = "2"
+      else:
+          droit = 2
 
       try:
           session = Session()
@@ -155,7 +156,7 @@ class Action:
           try:
               session = Session()
               data = self.myJson["data"]
-              new_exo = Exercice(data["type"], str(data["lst"]), data["level"])
+              new_exo = Exercice(data["name"], data["type"], data["level"], json.dumps(data["lst"]))
               session.add(new_exo)
               session.commit()
               insertId = str(new_exo.id)
@@ -176,10 +177,11 @@ class Action:
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = ",".join(  '{"id":' + str(item.id) +
-                                ',"type":"'+ item.type +
-                                '","level":"'+ str(item.level) +
-                                '","lst":"'+ item.lst +'"}' for item in q )
+          response = ",".join(  '{"id":"' + str(item.id) +
+                                '","name":"'+ item.name +
+                                '","type":"'+ item.type +
+                                '","level":'+ str(item.level) +
+                                ',"lst":'+ item.lst +'}' for item in q )
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
       except Exception as e:
