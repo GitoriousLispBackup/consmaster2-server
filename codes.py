@@ -12,7 +12,7 @@
 
 # Connexion au serveur
 HOST = "localhost"
-PORT = 9991
+PORT = 9993
 
 
 # Code Erreur Action
@@ -21,6 +21,8 @@ E_AUI = "Erreur: identUser"
 E_AUD = "Erreur: delUser"
 E_AUL = "Erreur: listtUser"
 E_AUO = "Erreur: vous ne disposez pas des autorisations necessaires"
+E_AUM = "Erreur: Cet utilisateur n'existe pas"
+
 
 E_AEC = "Erreur: creatExo"
 E_AEL = "Erreur: loadExo"
@@ -35,6 +37,7 @@ S_AUC = "creatUser"
 S_AUI = "identUser"
 S_AUD = "delUser"
 S_AUL = "listtUser"
+S_AUM = "delMyUser"
 
 S_AEC = "creatExo"
 S_AEL = "loadExo"

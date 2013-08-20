@@ -24,7 +24,7 @@ class Action:
         try:
             self.myJson = json.loads(myString)
         except Exception as e:
-            self.resultat = '{"status":"error","code":"E_AJS","description":"'+ E_AJS +'"}'
+            self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
 
         self.userExist()
 
@@ -32,7 +32,7 @@ class Action:
         try:
             getattr(Action,self.myJson["action"])(self)
         except Exception as e:
-            self.resultat = '{"status":"error","code":"E_AGA","description":"'+ E_AGA +'"}'
+            self.resultat = '{"status":"error","code":"E_AGA","description":"'+ str(e) +'"}'
 
 
 
@@ -72,7 +72,7 @@ class Action:
               session.close()
               self.resultat = '{"status":"success","code":"S_AUC","data":{"id":'+insertId+'}}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ E_AUC +'"}'
+          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ str(e) +'"}'
 
     def identUser(self):  # Identification d'un utilisateur
       try:
@@ -87,10 +87,13 @@ class Action:
           session.close()
           self.resultat =  '{"status":"success","code":"S_AUI","data":{"id":'+ident+',"droit":'+droit+'}}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ E_AUI +'"}'
+          if len(res) == 0:
+              self.resultat =  '{"status":"success","code":"S_AUI","data":{}}'
+              pass
+          else :
+              self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
 
-
-    def delUser(self):  # Suppression d'un utilisateur
+    def delUser(self):  # Suppression d'un utilisateur avec son id
       if(self.droit == 0):
           try:
               session = Session()
@@ -100,16 +103,32 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AUD","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ E_AUD +'"}'
+              self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ str(e) +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
+
+    def delMyUser(self):  # Suppression d'un utilisateur avec nickname et password
+          try:
+              session = Session()
+              #res = session.query(User).filter(User.id==self.myJson["data"]["nickname"]).first()
+              res = session.query(User). \
+                  filter(User.nickname == self.myJson["data"]["nickname"]). \
+                  filter(User.password == self.myJson["data"]["password"]).first()
+              if(res) :
+                  session.delete(res)
+                  session.commit()
+                  session.close()
+                  self.resultat =  '{"status":"success","code":"S_AUM","data":{"nickname":"'+str(self.myJson["data"]["nickname"])+'"}}'
+              else :
+                  self.resultat =  '{"status":"error","code":"E_AUM","description":"'+ E_AUM +'"}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_AUM","description":"'+ str(e) +'"}'
 
     def listUser(self):  # listing des utilisateurs
       if(self.droit <= 1):
           try:
               session = Session()
               q = session.query(User)
-              print(self.myJson["data"])
               for item, value in self.myJson["data"].items():
                   if(item == "id"):
                       q = q.filter(User.id==value)
@@ -122,7 +141,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AUL","data":['+ response[:-1] +']}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ E_AUL +'"}'
+              self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ str(e) +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
@@ -143,7 +162,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AEC","data":{"id":'+insertId+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ E_AEC +'"}'
+              self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
@@ -164,7 +183,7 @@ class Action:
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ E_AEL +'"}'
+          self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
 
 
     def delExo(self):  # Suppression d'un exercice
@@ -177,7 +196,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AED","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AED","description":"'+ E_AED +'"}'
+              self.resultat =  '{"status":"error","code":"E_AED","description":"'+ str(e) +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 

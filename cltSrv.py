@@ -34,17 +34,20 @@ password = "superU"
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel utilisateur
-#data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD47", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
+#data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD6", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
 
 # Identification d'un utilisateur
-data = '{"action":"identUser", "data":{"nickname": "JDsd", "password":"jd123"}}'
+#data = '{"action":"identUser", "data":{"nickname": "JDa", "password":"jd123"}}'
+
+# Suppression d'un utilisateur
+data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 
 # Suppression d'un utilisateur
 #data = '{"action":"delUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"id": 4}}'
 
 # Listing des utilisateurs
 #data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"prenom":"Emile", "droit":2}}'
-#data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"droit":2}}'
+#data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"droit":29}}'
 #data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id":2}}'
 
 
