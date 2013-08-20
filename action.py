@@ -72,8 +72,7 @@ class Action:
               session.close()
               self.resultat = '{"status":"success","code":"S_AUC","data":{"id":'+insertId+'}}'
       except Exception as e:
-          print(repr(e))
-          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ E_AUC +'"}'
+          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ str(e) +'"}'
 
     def identUser(self):  # Identification d'un utilisateur
       try:
