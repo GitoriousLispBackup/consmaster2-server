@@ -12,7 +12,7 @@
 
 # Connexion au serveur
 HOST = "localhost"
-PORT = 9990
+PORT = 9991
 
 
 # Code Erreur Action
@@ -20,8 +20,7 @@ E_AUC = "Erreur: creatUser"
 E_AUI = "Erreur: identUser"
 E_AUD = "Erreur: delUser"
 E_AUL = "Erreur: listtUser"
-E_AUO = "Erreur: verifier login et password"
-E_AUE = "Erreur: vous ne disposez pas des autorisations necessaires"
+E_AUO = "Erreur: vous ne disposez pas des autorisations necessaires"
 
 E_AEC = "Erreur: creatExo"
 E_AEL = "Erreur: loadExo"

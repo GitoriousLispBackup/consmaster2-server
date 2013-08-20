@@ -24,7 +24,7 @@ class Action:
         try:
             self.myJson = json.loads(myString)
         except Exception as e:
-            self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
+            self.resultat = '{"status":"error","code":"E_AJS","description":"'+ E_AJS +'"}'
 
         self.userExist()
 
@@ -32,7 +32,7 @@ class Action:
         try:
             getattr(Action,self.myJson["action"])(self)
         except Exception as e:
-            self.resultat = '{"status":"error","code":"E_AGA","description":"'+ str(e) +'"}'
+            self.resultat = '{"status":"error","code":"E_AGA","description":"'+ E_AGA +'"}'
 
 
 
@@ -45,7 +45,6 @@ class Action:
           session.commit()
 
           self.droit = res[0].droit
-
           session.close()
       except Exception as e:
           pass
@@ -73,7 +72,7 @@ class Action:
               session.close()
               self.resultat = '{"status":"success","code":"S_AUC","data":{"id":'+insertId+'}}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ str(e) +'"}'
+          self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ E_AUC +'"}'
 
     def identUser(self):  # Identification d'un utilisateur
       try:
@@ -88,7 +87,7 @@ class Action:
           session.close()
           self.resultat =  '{"status":"success","code":"S_AUI","data":{"id":'+ident+',"droit":'+droit+'}}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
+          self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ E_AUI +'"}'
 
 
     def delUser(self):  # Suppression d'un utilisateur
@@ -101,7 +100,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AUD","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ str(e) +'"}'
+              self.resultat =  '{"status":"error","code":"E_AUD","description":"'+ E_AUD +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
@@ -123,7 +122,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AUL","data":['+ response[:-1] +']}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ str(e) +'"}'
+              self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ E_AUL +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
@@ -144,7 +143,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AEC","data":{"id":'+insertId+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ str(e) +'"}'
+              self.resultat =  '{"status":"error","code":"E_AEC","description":"'+ E_AEC +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
@@ -165,7 +164,7 @@ class Action:
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
       except Exception as e:
-          self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
+          self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ E_AEL +'"}'
 
 
     def delExo(self):  # Suppression d'un exercice
@@ -178,7 +177,7 @@ class Action:
               session.close()
               self.resultat =  '{"status":"success","code":"S_AED","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
           except Exception as e:
-              self.resultat =  '{"status":"error","code":"E_AED","description":"'+ str(e) +'"}'
+              self.resultat =  '{"status":"error","code":"E_AED","description":"'+ E_AED +'"}'
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 

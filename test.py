@@ -47,6 +47,24 @@ def test(data, attendue, tested):
 
 if __name__ == "__main__":
 
+    # 0
+    #nickname = "superU"
+    #password = "superU"
+
+    # 1
+    nickname = "superEtudiant"
+    password = "superEtudiant"
+
+    # 2
+    #nickname = "Etudiant"
+    #password = "Etudiant"
+
+    #nickname = ""
+    #password = ""
+
+    userI = '"nickname": "'+ nickname +'", "password":"'+ password +'",'
+
+
 
     print()
     print("##############################################################")
@@ -57,9 +75,9 @@ if __name__ == "__main__":
     #Creation d'un nouvel utilisateur
     ts1 = time.time()
     print("##############################################################")
-    print("Creation d'un nouvel utilisateur nom:" + str(ts1))
-    #data = '{"action":"creatUser", NONPASICI"data":{"nom": "' + str(ts1) +'", "prenom":"Emile", "password":"emzo123", "droit":1}}' # Not OK
-    data = '{"action":"creatUser", "data":{"nom": "' + str(ts1) +'", "prenom":"Emile", "password":"emzo123", "droit":1}}' # OK
+    print("Creation d'un nouvel utilisateur nickname:" + str(ts1))
+    #data = '{"action":"creatUser", NONPASICI"data":{"nickname": "' + str(ts1) +'", "prenom":"Emile", "password":"emzo123", "droit":1}}' # Not OK
+    data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":1}}' # OK
     test(data, "success", "Creation d'un nouvel utilisateur")
 
 
@@ -67,8 +85,8 @@ if __name__ == "__main__":
 
     #Creation d'un utilisateur deja existant
     print("##############################################################")
-    print("Creation d'un utilisateur deja existant nom:" + str(ts1))
-    data = '{"action":"creatUser","data":{"nom": "' + str(ts1) +'", "prenom":"Emile", "password":"emzo123", "droit":1}}'
+    print("Creation d'un utilisateur deja existant nickname:" + str(ts1))
+    data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":1}}'
     test(data, "error", "Creation d'un utilisateur deja existant")
 
 
@@ -77,7 +95,7 @@ if __name__ == "__main__":
     #Identification d'un utilisateur
     print("##############################################################")
     print("Identification d'un utilisateur existant:" + str(ts1))
-    data = '{"action":"identUser","data":{"nom": "' + str(ts1) +'", "password":"emzo123"}}'
+    data = '{"action":"identUser","data":{"nickname": "' + str(ts1) +'", "password":"emzo123"}}'
 
     iu = test(data, "success", "Identification d'un utilisateur")
     iuid = 0
@@ -89,8 +107,8 @@ if __name__ == "__main__":
 
     #Identification d'un utilisateur inconnu
     print("##############################################################")
-    print("Identification d'un utilisateur inconnu nom: youKnowMe")
-    data = '{"action":"identUser","data":{"nom": "youKnowMe", "password":"emzo123"}}'
+    print("Identification d'un utilisateur inconnu nickname: youKnowMe")
+    data = '{"action":"identUser","data":{"nickname": "youKnowMe", "password":"emzo123"}}'
     test(data, "error", "Identification d'un utilisateur inconnu")
 
 
@@ -98,17 +116,17 @@ if __name__ == "__main__":
 
     # Listing des utilisateurs
     print("##############################################################")
-    print('Listing des utilisateurs : "prenom":"Emile","droit":1')
-    data = '{"action":"listUser","data":{"prenom":"Emile","droit":1}}'
-    test(data, "success", "")
+    print('Listing des utilisateurs : "prenom":"surname","droit":1')
+    data = '{"action":"listUser", '+ str(userI) +' "data":{"prenom":"surname","droit":1}}'
+    test(data, "success", "Listing des utilisateurs")
 
     print()
 
     # Suppression d'un utilisateur
     print("##############################################################")
     print("Suppression d'un utilisateur id:" + str(iuid))
-    data = '{"action":"delUser","data":{"id": '+ str(iuid) +'}}'
-    test(data, "success", "Listing des utilisateurs")
+    data = '{"action":"delUser", '+ str(userI) +' "data":{"id": '+ str(iuid) +'}}'
+    test(data, "success", "Suppression d'un utilisateur")
 
     if error :
         print()

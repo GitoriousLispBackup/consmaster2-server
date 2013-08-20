@@ -34,10 +34,10 @@ password = "superU"
 #////////////////////////////////////////////////////////////////////////////
 
 #Creation d'un nouvel utilisateur
-#data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD5", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
+#data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD47", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
 
 # Identification d'un utilisateur
-#data = '{"action":"identUser","nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"nickname": "JD4", "password":"jd123"}}'
+data = '{"action":"identUser", "data":{"nickname": "JDsd", "password":"jd123"}}'
 
 # Suppression d'un utilisateur
 #data = '{"action":"delUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"id": 4}}'
