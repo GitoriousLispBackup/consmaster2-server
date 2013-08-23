@@ -156,7 +156,7 @@ class Action:
           try:
               session = Session()
               data = self.myJson["data"]
-              new_exo = Exercice(data["name"], data["type"], data["level"], json.dumps(data["lst"]))
+              new_exo = Exercice(data["name"], data["type"], data["level"], data["raw"])
               session.add(new_exo)
               session.commit()
               insertId = str(new_exo.id)
@@ -172,12 +172,12 @@ class Action:
           session = Session()
           q = session.query(Exercice)
           for item, value in self.myJson["data"].items():
-              if(item == "id"):
-                  q = q.filter(Exercice.id==value)
+              if item == "id":
+                  q = q.filter(Exercice.id == value)
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = json.dumps([{'id': item.id, 'name': item.name, 'type': item.type, 'level': item.level, 'lst': item.lst} \
+          response = json.dumps([{'id': item.id, 'name': item.name, 'type': item.type, 'level': item.level, 'raw': item.raw} \
                                      for item in q])
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":'+ response +'}'

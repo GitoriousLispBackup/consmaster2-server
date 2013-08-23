@@ -60,17 +60,17 @@ class Exercice(Base):
     name = Column(String)
     type = Column(String, nullable=False)
     level = Column(Integer, nullable=False)
+    raw = Column(String, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
-    lst = Column(String, nullable=False)
 
-    def __init__(self, name, type, level, lst):
+    def __init__(self, name, type, level, raw):
         self.name = name
         self.type = type
         self.level = level
-        self.lst = lst
+        self.raw = raw
 
     def __repr__(self):
-      return "<Exercice('%s' '%s', '%s', '%s')>" % (self.name, self.type, self.level, self.lst)
+      return "<Exercice('%s' '%s', '%s')>" % (self.name, self.type, self.level)
 
 
 engine = create_engine(BDD, echo=False)
