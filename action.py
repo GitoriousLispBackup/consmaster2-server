@@ -177,7 +177,7 @@ class Action:
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = json.dumps([{'raw': item.raw} for item in q])
+          response = json.dumps([{'id': item.id, 'raw': item.raw} for item in q])
           session.close()
           self.resultat =  '{"status":"success","code":"S_AEL","data":'+ response +'}'
       except Exception as e:
