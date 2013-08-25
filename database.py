@@ -55,6 +55,7 @@ class User(Base):
 
 class Exercice(Base):
     __tablename__ = 'exos'
+    __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -73,7 +74,7 @@ class Exercice(Base):
       return "<Exercice('%s' '%s', '%s')>" % (self.name, self.type, self.level)
 
 
-engine = create_engine(BDD, echo=False)
+engine = create_engine(BDD, echo=True)
 
 # Create tables if they don't exist.
 Base.metadata.create_all(engine)
