@@ -37,7 +37,7 @@ class Connexion:
             json.loads(self.mess)
         except ValueError:
             self.erreur = ("Erreur: les données ne sont pas au format JSON")
-            self.result = '{"status":"error","code":"E_CJS","descrition":"Erreur: les données ne sont pas au format JSON."}'
+            self.result = '{"status":"error","code":"E_CJS","description":"Erreur: les données ne sont pas au format JSON."}'
             return 1
 
         if (self.comp == "On"):
@@ -58,7 +58,7 @@ class Connexion:
             #print ('Socket crée')
         except socket.error:
             self.erreur = ('Erreur: Impossible de créer un socket')
-            self.result = '{"status":"error","code":"E_CSO","descrition":"Erreur: Impossible de créer un socket."}'
+            self.result = '{"status":"error","code":"E_CSO","description":"Erreur: Impossible de créer un socket."}'
             return 1
         self.connection()
 
@@ -69,7 +69,7 @@ class Connexion:
             self.remote_ip = socket.gethostbyname( self.host )
         except socket.gaierror:
             self.erreur = 'Erreur: Nom de l\'hôte ne peut être résolu.'
-            self.result = '{"status":"error","code":"E_CHO","descrition":"Erreur: Nom de l\'hôte ne peut être résolu."}'
+            self.result = '{"status":"error","code":"E_CHO","description":"Erreur: Nom de l\'hôte ne peut être résolu."}'
             return 1
 
         try:
@@ -78,7 +78,7 @@ class Connexion:
             #print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
         except socket.error as e:
             self.erreur = "Erreur:Impossible de se connecter à " + self.host + " sur le port: " + str(self.port)
-            self.result = '{"status":"error","code":"E_CCO","descrition":"Erreur:Impossible de se connecter à ' + self.host + ' sur le port: ' + str(self.port) + '"}'
+            self.result = '{"status":"error","code":"E_CCO","description":"Erreur:Impossible de se connecter à ' + self.host + ' sur le port: ' + str(self.port) + '"}'
             return 1
 
         self.sendMessage()
@@ -90,7 +90,7 @@ class Connexion:
             self.s.sendall(bytes(self.mess, "utf-8"))
         except socket.error:
             self.erreur = 'Erreur: Impossible d\'envoyer le message'
-            self.result = '{"status":"error","code":"E_CSE","descrition":"Erreur: Impossible d\'envoiyer le message"}'
+            self.result = '{"status":"error","code":"E_CSE","description":"Erreur: Impossible d\'envoiyer le message"}'
             return 1
 
 
