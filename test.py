@@ -11,10 +11,12 @@
 #           * Identification d'un utilisateur
 #           * Identification d'un utilisateur inconnu
 #           * Listing des utilisateurs
+#           * Test du format JSON
 #           * Suppression d'un utilisateur
-# VERSION : 0.1
+# VERSION : 0.2
 # LICENCE : GNU
 
+import sys
 import json
 from connexion import Connexion
 import codes
@@ -47,24 +49,36 @@ def test(data, attendue, tested):
 
 if __name__ == "__main__":
 
-    # 0
-    #nickname = "superU"
-    #password = "superU"
+    Qdroit = ""
 
-    # 1
-    nickname = "superEtudiant"
-    password = "superEtudiant"
+    Qdroit = input('Quelle droit pour l\'utilisateur: 0, 1, 2 ou rien : ')
 
-    # 2
-    #nickname = "Etudiant"
-    #password = "Etudiant"
+    if (Qdroit == "0") :
+        nickname = "superU"
+        password = "superU"
 
-    #nickname = ""
-    #password = ""
+    if (Qdroit == "1") :
+        nickname = "superEtudiant"
+        password = "superEtudiant"
+
+    if (Qdroit == "2") :
+        nickname = "Etudiant"
+        password = "Etudiant"
+
+    if (Qdroit == "") :
+        nickname = ""
+        password = ""
 
     userI = '"nickname": "'+ nickname +'", "password":"'+ password +'",'
 
+    data = '{"action":"identUser","data":{"nickname": "'+ nickname +'", "password":"'+ password +'"}}'
+    new_u = Connexion(data)
+    resultUser = json.loads(new_u.result)
 
+
+    if (((Qdroit == "0") or  (Qdroit == "1")) and (str(resultUser["data"])  == "{}")):
+        print("L'utilisateur n'existe pas vous devez le créer dans la base: " + userI[:-1])
+        sys.exit(0)
 
     print()
     print("##############################################################")
@@ -76,7 +90,6 @@ if __name__ == "__main__":
     ts1 = time.time()
     print("##############################################################")
     print("Creation d'un nouvel utilisateur nickname:" + str(ts1))
-    #data = '{"action":"creatUser", NONPASICI"data":{"nickname": "' + str(ts1) +'", "prenom":"Emile", "password":"emzo123", "droit":1}}' # Not OK
     data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":1}}' # OK
     test(data, "success", "Creation d'un nouvel utilisateur")
 
@@ -109,7 +122,7 @@ if __name__ == "__main__":
     print("##############################################################")
     print("Identification d'un utilisateur inconnu nickname: youKnowMe")
     data = '{"action":"identUser","data":{"nickname": "youKnowMe", "password":"emzo123"}}'
-    test(data, "error", "Identification d'un utilisateur inconnu")
+    test(data, "success", "Identification d'un utilisateur inconnu")
 
 
     print()
@@ -119,6 +132,14 @@ if __name__ == "__main__":
     print('Listing des utilisateurs : "prenom":"surname","droit":1')
     data = '{"action":"listUser", '+ str(userI) +' "data":{"prenom":"surname","droit":1}}'
     test(data, "success", "Listing des utilisateurs")
+
+    print()
+
+    # test du format JSON
+    print("##############################################################")
+    print('Test du format JSON')
+    data = '{"action":"listUser", '+ str(userI) +' NON PAS ICI "data":{"prenom":"surname","droit":1}}'
+    test(data, "error", "Test du format JSON")
 
     print()
 
