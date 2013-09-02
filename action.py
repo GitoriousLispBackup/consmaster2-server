@@ -25,11 +25,13 @@ class Action:
             self.myJson = json.loads(myString)
         except Exception as e:
             self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
+            return
 
         try:
             self.userExist()
         except Exception as e:
             self.resultat = '{"status":"error","code":"E_AUE","description":"'+ str(e) +'"}'
+            return
         
         # Va executer l'action desirer
         try:
