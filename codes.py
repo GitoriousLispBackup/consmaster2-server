@@ -29,6 +29,7 @@ E_AEL = "Erreur: loadExo"
 E_AED = "Erreur: delExo"
 
 E_AJS = "Erreur: JSON format"
+E_AUE = "Erreur: userExist"
 E_AGA = "Erreur: pas de fonction de ce nom"
 E_SRL = "Erreur: pas de variable action"
 
@@ -36,7 +37,7 @@ E_SRL = "Erreur: pas de variable action"
 S_AUC = "creatUser"
 S_AUI = "identUser"
 S_AUD = "delUser"
-S_AUL = "listtUser"
+S_AUL = "listUser"
 S_AUM = "delMyUser"
 
 S_AEC = "creatExo"

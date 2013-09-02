@@ -26,8 +26,11 @@ class Action:
         except Exception as e:
             self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
 
-        self.userExist()
-
+        try:
+            self.userExist()
+        except Exception as e:
+            self.resultat = '{"status":"error","code":"E_AUE","description":"'+ str(e) +'"}'
+        
         # Va executer l'action desirer
         try:
             getattr(Action,self.myJson["action"])(self)
@@ -35,19 +38,15 @@ class Action:
             self.resultat = '{"status":"error","code":"E_AGA","description":"'+ str(e) +'"}'
 
 
-
     def userExist(self):
-      try:
-          session = Session()
-          res = session.query(User). \
-                    filter(User.nickname == self.myJson["nickname"]). \
-                    filter(User.password == self.myJson["password"]).all()
-          session.commit()
-
-          self.droit = res[0].droit
-          session.close()
-      except Exception as e:
-          pass
+        session = Session()
+        res = session.query(User). \
+                filter(User.nickname == self.myJson["nickname"]). \
+                filter(User.password == self.myJson["password"]).all()
+        session.commit()
+            
+        self.droit = res[0].droit
+        session.close()
 
 
     #////////////////////////////////////////////////////////////////////////////
@@ -90,8 +89,7 @@ class Action:
       except Exception as e:
           if len(res) == 0:
               self.resultat =  '{"status":"success","code":"S_AUI","data":{}}'
-              pass
-          else :
+          else:
               self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
 
     def delUser(self):  # Suppression d'un utilisateur avec son id
@@ -152,7 +150,7 @@ class Action:
     #////////////////////////////////////////////////////////////////////////////
 
     def creatExo(self):  # Creation d'un nouvel exercice
-      if(self.droit == 0):
+      if self.droit == 0:
           try:
               session = Session()
               data = self.myJson["data"]
