@@ -140,7 +140,8 @@ class Connexion:
         if (new_d.recomp == "On"):
             #print(new_d.recomp)
             self.result =  myrecomp
-        else : self.result = (resul)
+        else:
+            self.result = resul
         # ferme le socket
         self.s.close()
 

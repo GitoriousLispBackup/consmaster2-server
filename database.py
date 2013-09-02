@@ -33,12 +33,12 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    nickname = Column(String, nullable = False, unique = True)
+    nickname = Column(String, nullable=False, unique=True)
     nom = Column(String)
     prenom = Column(String)
     email = Column(String)
-    password = Column(String)
-    droit = Column(Integer)
+    password = Column(String, nullable=False)
+    droit = Column(Integer, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, nickname, nom, prenom, email, password, droit):
@@ -55,23 +55,26 @@ class User(Base):
 
 class Exercice(Base):
     __tablename__ = 'exos'
+    __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
-    type = Column(String)
-    lst = Column(String)
-    level = Column(Integer)
+    name = Column(String)
+    type = Column(String, nullable=False)
+    level = Column(Integer, nullable=False)
+    raw = Column(String, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
 
-    def __init__(self, type, lst, level):
+    def __init__(self, name, type, level, raw):
+        self.name = name
         self.type = type
-        self.lst = lst
         self.level = level
+        self.raw = raw
 
     def __repr__(self):
-      return "<Exercice('%s', '%s', '%s')>" % (self.type, self.lst, self.level)
+      return "<Exercice('%s' '%s', '%s')>" % (self.name, self.type, self.level)
 
 
-engine = create_engine(BDD, echo=False)
+engine = create_engine(BDD, echo=True)
 
 # Create tables if they don't exist.
 Base.metadata.create_all(engine)

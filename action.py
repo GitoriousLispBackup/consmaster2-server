@@ -55,9 +55,10 @@ class Action:
     #////////////////////////////////////////////////////////////////////////////
 
     def creatUser(self):  # Creation d'un nouvel utilisateur
-      if(self.droit == 0):
+      if self.droit == 0:
           droit = self.myJson["data"]["droit"]
-      else : droit = "2"
+      else:
+          droit = 2
 
       try:
           session = Session()
@@ -65,7 +66,7 @@ class Action:
           if res:
               self.resultat =  '{"status":"error","code":"E_AUC","description":"utilisateur deja existant"}'
           else:
-              new_user = User(self.myJson["data"]["nickname"], self.myJson["data"]["nom"], self.myJson["data"]["prenom"], self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
+              new_user = User(self.myJson["data"]["nickname"], self.myJson["data"].get("nom"), self.myJson["data"].get("prenom"), self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
               session.add(new_user)
               session.commit()
               insertId = str(new_user.id)
@@ -155,7 +156,7 @@ class Action:
           try:
               session = Session()
               data = self.myJson["data"]
-              new_exo = Exercice(data["type"], str(data["lst"]), data["level"])
+              new_exo = Exercice(data["name"], data["type"], data["level"], data["raw"])
               session.add(new_exo)
               session.commit()
               insertId = str(new_exo.id)
@@ -171,17 +172,14 @@ class Action:
           session = Session()
           q = session.query(Exercice)
           for item, value in self.myJson["data"].items():
-              if(item == "id"):
-                  q = q.filter(Exercice.id==value)
+              if item == "id":
+                  q = q.filter(Exercice.id == value)
               else :
                   q = q.filter(getattr(Exercice, item).like("%%%s%%" % value))
           session.commit()
-          response = ",".join(  '{"id":' + str(item.id) +
-                                ',"type":"'+ item.type +
-                                '","level":"'+ str(item.level) +
-                                '","lst":"'+ item.lst +'"}' for item in q )
+          response = json.dumps([{'id': item.id, 'raw': item.raw} for item in q])
           session.close()
-          self.resultat =  '{"status":"success","code":"S_AEL","data":['+ response +']}'
+          self.resultat =  '{"status":"success","code":"S_AEL","data":'+ response +'}'
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
 
