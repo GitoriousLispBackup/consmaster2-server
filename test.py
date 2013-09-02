@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     Qdroit = ""
 
-    Qdroit = input('Quelle droit pour l\'utilisateur: 0, 1, 2 ou rien : ')
+    Qdroit = input('Quel droit pour l\'utilisateur: 0, 1, 2 ou rien (enter) ?')
 
     if (Qdroit == "0") :
         nickname = "superU"
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
 
     if (((Qdroit == "0") or  (Qdroit == "1")) and (str(resultUser["data"])  == "{}")):
-        print("L'utilisateur n'existe pas vous devez le créer dans la base: " + userI[:-1])
+        print("L\'utilisateur n\'existe pas vous devez le créer dans la base: " + userI[:-1])
         sys.exit(0)
 
     print()
