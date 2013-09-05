@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package cltSrv
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -33,19 +34,19 @@ password = "superU"
 #   USAGE: UTILISATEURS
 #////////////////////////////////////////////////////////////////////////////
 
-#Creation d'un nouvel utilisateur
+## Creation d'un nouvel utilisateur
 #data = '{"action":"creatUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"nickname": "JD6", "nom": "Dalton", "prenom":"Joe", "email": "JoeDalton@ied.fr", "password":"jd123", "droit":"0"}}'
 
-# Identification d'un utilisateur
+## Identification d'un utilisateur
 #data = '{"action":"identUser", "data":{"nickname": "JDa", "password":"jd123"}}'
 
-# Suppression d'un utilisateur
+## Suppression d'un utilisateur
 data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 
-# Suppression d'un utilisateur
+## Suppression d'un utilisateur
 #data = '{"action":"delUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"id": 4}}'
 
-# Listing des utilisateurs
+## Listing des utilisateurs
 #data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"prenom":"Emile", "droit":2}}'
 #data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"droit":29}}'
 #data = '{"action":"listUser", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id":2}}'
@@ -55,11 +56,11 @@ data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 #   USAGE: EXERCICES
 #////////////////////////////////////////////////////////////////////////////
 
-#Creation d'un nouvel exercice
+## Creation d'un nouvel exercice
 
 #data = '{"action":"creatExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type": "__NG__", "lst": ["(1 2 (3 . 4))"]}}'
 
-# Loading des exercices
+##  Loading des exercices
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type":"__NDN__"}}'
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"type":"__NDN__"}}'
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "type":"__NDN__"}}'
@@ -67,7 +68,7 @@ data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 #data = '{"action":"loadExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"level": 3, "id":3}}'
 
 
-# Suppression d'un exercice
+##  Suppression d'un exercice
 #data = '{"action":"delExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id": 3}}'
 
 #////////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,7 @@ data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 #new_s = Connexion(data) # se base sur COMP
 #new_s = Connexion(data, "Off")
 #new_s = Connexion(data, "On")
-new_s = Connexion(data) # ref. COMP dans code.py
+new_s = Connexion(data) ##  ref. COMP dans code.py
 print("data", data)
 
 print (new_s.result)

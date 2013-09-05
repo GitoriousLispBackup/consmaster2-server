@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package database
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
-# FICHIER : action.py
-# CONTENU : fonctions des actions demandé par le client au serveur
-# VERSION : 0.1
+# FICHIER : database.py
+# CONTENU : Creation et connexion à la base de donnees.
+# VERSION : 0.2
 # LICENCE : GNU
 
 BDD = "sqlite:///consmaster2.db"
@@ -76,7 +77,7 @@ class Exercice(Base):
 
 engine = create_engine(BDD, echo=True)
 
-# Create tables if they don't exist.
+## Create tables if they don't exist.
 Base.metadata.create_all(engine)
 
 

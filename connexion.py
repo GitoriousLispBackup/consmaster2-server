@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package connexion
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -22,7 +23,7 @@ from compress import *
 class Connexion:
 
     def __init__(self, mess='', comp=COMP, port=PORT, host=HOST):
-        # initilisation des variables
+        ## initilisation des variables
         self.mess = mess
         self.port = port
         self.host = host
@@ -32,7 +33,7 @@ class Connexion:
 
 
     def jsonCheck(self):
-        # vérifie si le message est au format JSON
+        ## vérifie si le message est au format JSON
         try:
             json.loads(self.mess)
         except ValueError:
@@ -52,10 +53,10 @@ class Connexion:
 
 
     def socketCreate(self):
-        # création d'un socket TCP/IP V4 avec une communication par flot de données
+        ## création d'un socket TCP/IP V4 avec une communication par flot de données
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #print ('Socket crée')
+            ## print ('Socket crée')
         except socket.error:
             self.erreur = ('Erreur: Impossible de créer un socket')
             self.result = '{"status":"error","code":"E_CSO","descrition":"Erreur: Impossible de créer un socket."}'
@@ -65,7 +66,7 @@ class Connexion:
 
     def connection(self):
         try:
-            # Traduit le host name en adresse ip
+            ## Traduit le host name en adresse ip
             self.remote_ip = socket.gethostbyname( self.host )
         except socket.gaierror:
             self.erreur = 'Erreur: Nom de l\'hôte ne peut être résolu.'
@@ -73,9 +74,9 @@ class Connexion:
             return 1
 
         try:
-            # établit une connexion avec le serveur.
+            ## établit une connexion avec le serveur.
             self.s.connect((self.remote_ip , self.port))
-            #print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
+            ## print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
         except socket.error as e:
             self.erreur = "Erreur:Impossible de se connecter à " + self.host + " sur le port: " + str(self.port)
             self.result = '{"status":"error","code":"E_CCO","descrition":"Erreur:Impossible de se connecter à ' + self.host + ' sur le port: ' + str(self.port) + '"}'
@@ -86,7 +87,7 @@ class Connexion:
 
     def sendMessage(self):
         try :
-            # Envoie les données au serveur
+            ## Envoie les données au serveur
             self.s.sendall(bytes(self.mess, "utf-8"))
         except socket.error:
             self.erreur = 'Erreur: Impossible d\'envoyer le message'
@@ -94,58 +95,55 @@ class Connexion:
             return 1
 
 
-        #print ('Message envoyer avec succès')
+        ## print ('Message envoyer avec succès')
 
 
         def reception(leSocket,timeOut=1):
-            # faire un socket non bloquant
+            ## faire un socket non bloquant
             leSocket.setblocking(0)
 
             allData=[];
             data='';
 
-            #debut du temps
+            ## debut du temps
             debut=time.time()
             while 1:
-                # si il y a des données, break après le timeout
+                ## si il y a des données, break après le timeout
                 if allData and time.time()-debut > timeOut:
                     break
 
-                # si il n'y a pas de données, attendre un peu plus longtemps.
+                ## si il n'y a pas de données, attendre un peu plus longtemps.
                 elif time.time()-debut > timeOut*2:
                     break
 
-                # réception
+                ## réception
                 try:
                     data = str(leSocket.recv(1024), "utf-8")
                     if data:
                         allData.append(data)
-                        # modifier le temps de debut
+                        ## modifier le temps de debut
                         debut=time.time()
                     else:
-                        # dormir un certain temps pour indiquer un écart
+                        ## dormir un certain temps pour indiquer un écart
                         time.sleep(0.1)
                 except:
                     pass
 
-            # rejoindre toutes les parties de la chaîne
+            ## rejoindre toutes les parties de la chaîne
             return ''.join(allData)
 
-        # obtenir la réponse
+        ## obtenir la réponse
         resul = reception(self.s)
-        #print(resul)
         new_d = decompression(resul)
         myrecomp = new_d.dataDecompression()
 
         if (new_d.recomp == "On"):
-            #print(new_d.recomp)
             self.result =  myrecomp
         else:
             self.result = resul
-        # ferme le socket
+        ## ferme le socket
         self.s.close()
 
-        #decom(resul)
 
 
 

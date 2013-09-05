@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package codes
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
-# FICHIER : code.py
+# FICHIER : codes.py
 # CONTENU : codes
 # VERSION : 0.2
 # LICENCE : GNU
 
 
-# Connexion au serveur
+## Connexion au serveur
 HOST = "localhost"
 PORT = 9993
 
@@ -32,7 +33,7 @@ E_AJS = "Erreur: JSON format"
 E_AGA = "Erreur: pas de fonction de ce nom"
 E_SRL = "Erreur: pas de variable action"
 
-# Code Success Action
+## Code Success Action
 S_AUC = "creatUser"
 S_AUI = "identUser"
 S_AUD = "delUser"
@@ -45,7 +46,7 @@ S_AED = "delExo"
 
 
 
-#Code Erreur Connexion
+## Code Erreur Connexion
 
 E_CJS = "Erreur: jsonCheck"
 E_CSO = "Erreur: socketCreate"
@@ -55,7 +56,7 @@ E_CSE = "Erreur: sendMessage"
 
 
 
-# Compression
+## Compression
 COMP = "Off"
 #COMP = "On"
 
@@ -71,7 +72,7 @@ dicompress = {
  '"password":':'pa:',
     '"droit":':'dr:',
 
- # exos
+ ## exos
     '"level":':'le:',
      '"type":':'ty:',
   '"__NDN__"':'"ndn"',
@@ -87,14 +88,14 @@ dicompress = {
       '"dotted"':'"do"',
       '"normal"':'"nr"',
 
- # resultat
+ ## resultat
     '"status":':'st:',
     ':"error"':':er',
     ':"success"':':su',
     '"code":':'co:',
     '"description":':'de:',
 
- # function action
+ ## function action
 ':"creatUser"':':cu',
  ':"identUser"':':iu',
  ':"delUser"':':du',

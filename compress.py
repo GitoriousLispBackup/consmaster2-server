@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package compress
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -21,10 +22,10 @@ import sys
 from codes import *
 import re
 import ast
-#import zlib
+
 
 class homeCompress :
-  # home Compression
+  ## home Compression
     def __init__(self, text):
           self.text = text
           self.dicompress = dicompress
@@ -41,17 +42,16 @@ class homeCompress :
         self.compresSize = sys.getsizeof(self.compression)
         self.ratio = float(self.originalSize) / self.compresSize
         self.sendHo = 'home' + self.compression
-        #self.sendHo.insert(0, "home")
+
 
     def decompress(self) :
         self.deCompression = self.replace_all({v:k for k, v in self.dicompress.items()})
-        #print(self.deCompression)
         self.deCompresSize = sys.getsizeof(self.deCompression)
         return self.deCompression
 
 
 class lz :
-  # LZ Compression
+  ## LZ Compression
     def __init__(self, text):
         self.text = text
         self.originalSize = sys.getsizeof(self.text)
@@ -77,9 +77,9 @@ class lz :
         self.ratio = float(self.originalSize) / self.compresSize
         self.sendLz = self.out
         self.sendLz.insert(0, "LZ")
-        #return self.out
 
-    # LZ deCompression
+
+    ## LZ deCompression
     def unsqueeze(self) :
         D = dict([(n, chr(n)) for n in range(256)])
         ref = len(D)
@@ -90,12 +90,10 @@ class lz :
               self.word = D[byte]
             except Exception as e:
                pass
-                #print("keyerror", str(e))
             self.out.append(self.word)
             D[ref] = D[token] + self.word[0]
             token = byte
             ref += 1
-            #print(self.out)
         return ''.join(self.out)
 
 class huffman:
@@ -126,9 +124,9 @@ class huffman:
         while H[1:] :
             H = sorted(H, key=lambda tup: tup[0])
             left = H[0]
-            H.remove(left)    # get 1st minimum
+            H.remove(left)    ## get 1st minimum
             right = H[0]
-            H.remove(right)    # get 2nd minimum
+            H.remove(right)    ## get 2nd minimum
             H.append((left[0] + right[0], left, right))
         self.huffannCode = H[0]
 
@@ -137,7 +135,6 @@ class huffman:
         self.make_codes(self.huffannCode)
         bit_string = ''.join([self.prefix[z] for z in self.text])
         code_map = dict(zip(self.prefix.values(), self.prefix.keys()))
-        #print(bit_string)
         squeezed = []
         for b in range(0, len(bit_string), 8) :
           squeezed.append(int(bit_string[b:b+8], 2))
@@ -161,13 +158,12 @@ class huffman:
                 code = str()
         self.huffdecomp = ''.join(bytes)
 
-# decompression
+## decompression
 class decompression:
     def __init__(self, text):
       self.text = text
       self.recomp = "Off"
       if (COMP == "On"): self.recomp = "On"
-      #print("decompression", self.text)
 
     def dataDecompression(self) :
         try :
@@ -175,7 +171,6 @@ class decompression:
               new_dhc = homeCompress(self.text[4:])
               self.text = new_dhc.decompress()
               self.recomp = "On"
-              #print("decomp home",self.text)
         except Exception as e:
             pass
 
@@ -184,10 +179,8 @@ class decompression:
 
           if (isLz[0] == "'LZ'") :
               lzData = [int(x) for x in isLz[1:]]
-              #print("LZ  ",  lz)
               new_lzd = lz(lzData)
               self.text = new_lzd.unsqueeze()
-              #print ("lz", self.text)
               self.recomp = "On"
 
         except Exception as e:
@@ -204,7 +197,7 @@ class decompression:
 
         return self.text
 
-# Compression
+## Compression
 class compression:
     def __init__(self, text):
           self.text = text
@@ -212,7 +205,7 @@ class compression:
 
     def dataCompression(self) :
           ratio = 0
-          #   home Compression
+          ##   home Compression
 
           new_hoc = homeCompress(self.text)
           original = new_hoc.originalSize
@@ -223,7 +216,7 @@ class compression:
               self.comp = new_hoc.sendHo
               self.typeComp = 'home'
 
-          #   LZ Compression
+          ##   LZ Compression
           new_lzc = lz(self.text)
           new_lzc.squeeze()
           self.ratioLz = new_lzc.ratio
@@ -232,7 +225,7 @@ class compression:
               self.comp =  new_lzc.sendLz
               self.typeComp = 'lz'
 
-          #   huffman Compression
+          ##   huffman Compression
           new_huc = huffman(self.text)
           new_huc.huffEncode()
           new_huc.huffSend
@@ -243,4 +236,3 @@ class compression:
               self.typeComp = 'huff'
 
           self.prtRatio = "Original: " + str(original) + "   Maison: " + '%2.2f' % self.ratioHome + "    Lz: " + '%2.2f' % self.ratioLz + "   Huffman: " + '%2.2f' % self.ratioHuff
-          #return send

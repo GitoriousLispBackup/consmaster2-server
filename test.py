@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package test
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -51,7 +52,7 @@ if __name__ == "__main__":
 
     Qdroit = ""
 
-    Qdroit = input('Quel droit pour l\'utilisateur: 0, 1, 2 ou rien (enter) ?')
+    Qdroit = input('Quelle droit pour l\'utilisateur: 0, 1, 2 ou rien : ')
 
     if (Qdroit == "0") :
         nickname = "superU"
@@ -77,7 +78,7 @@ if __name__ == "__main__":
 
 
     if (((Qdroit == "0") or  (Qdroit == "1")) and (str(resultUser["data"])  == "{}")):
-        print("L\'utilisateur n\'existe pas vous devez le créer dans la base: " + userI[:-1])
+        print("L'utilisateur n'existe pas vous devez le créer dans la base: " + userI[:-1])
         sys.exit(0)
 
     print()
@@ -86,7 +87,7 @@ if __name__ == "__main__":
     print("##############################################################")
     print()
 
-    #Creation d'un nouvel utilisateur
+    ## Creation d'un nouvel utilisateur
     ts1 = time.time()
     print("##############################################################")
     print("Creation d'un nouvel utilisateur nickname:" + str(ts1))
@@ -96,7 +97,7 @@ if __name__ == "__main__":
 
     print()
 
-    #Creation d'un utilisateur deja existant
+    ## Creation d'un utilisateur deja existant
     print("##############################################################")
     print("Creation d'un utilisateur deja existant nickname:" + str(ts1))
     data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":1}}'
@@ -105,7 +106,7 @@ if __name__ == "__main__":
 
     print()
 
-    #Identification d'un utilisateur
+    ## Identification d'un utilisateur
     print("##############################################################")
     print("Identification d'un utilisateur existant:" + str(ts1))
     data = '{"action":"identUser","data":{"nickname": "' + str(ts1) +'", "password":"emzo123"}}'
@@ -118,7 +119,7 @@ if __name__ == "__main__":
 
     print()
 
-    #Identification d'un utilisateur inconnu
+    ## Identification d'un utilisateur inconnu
     print("##############################################################")
     print("Identification d'un utilisateur inconnu nickname: youKnowMe")
     data = '{"action":"identUser","data":{"nickname": "youKnowMe", "password":"emzo123"}}'
@@ -127,7 +128,7 @@ if __name__ == "__main__":
 
     print()
 
-    # Listing des utilisateurs
+    ## Listing des utilisateurs
     print("##############################################################")
     print('Listing des utilisateurs : "prenom":"surname","droit":1')
     data = '{"action":"listUser", '+ str(userI) +' "data":{"prenom":"surname","droit":1}}'
@@ -135,7 +136,7 @@ if __name__ == "__main__":
 
     print()
 
-    # test du format JSON
+    ## test du format JSON
     print("##############################################################")
     print('Test du format JSON')
     data = '{"action":"listUser", '+ str(userI) +' NON PAS ICI "data":{"prenom":"surname","droit":1}}'
@@ -143,7 +144,7 @@ if __name__ == "__main__":
 
     print()
 
-    # Suppression d'un utilisateur
+    ## Suppression d'un utilisateur
     print("##############################################################")
     print("Suppression d'un utilisateur id:" + str(iuid))
     data = '{"action":"delUser", '+ str(userI) +' "data":{"id": '+ str(iuid) +'}}'
