@@ -48,7 +48,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                   self.resultat = '{"status":"error","code":"E_SRL","description":"'+ str(e) +'"}'
               #print(new_d.recomp)
               #print("action", new_a.resultat)
-              if (new_d.recomp == "On"):
+              if new_d.recomp == "On":
                   new_c = compression(new_a.resultat)
                   new_c.dataCompression()
                   new_a.resultat = new_c.comp

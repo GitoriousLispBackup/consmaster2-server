@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-## @package action
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -29,7 +28,7 @@ class Action:
 
         self.userExist()
 
-        ## Va executer l'action desirer
+        # Va executer l'action desirer
         try:
             getattr(Action,self.myJson["action"])(self)
         except Exception as e:
@@ -55,7 +54,7 @@ class Action:
     #     UTILISATEUR
     #////////////////////////////////////////////////////////////////////////////
 
-    def creatUser(self):  ## Creation d'un nouvel utilisateur
+    def creatUser(self):  # Creation d'un nouvel utilisateur
       if self.droit == 0:
           droit = self.myJson["data"]["droit"]
       else:
@@ -76,7 +75,7 @@ class Action:
       except Exception as e:
           self.resultat =  '{"status":"error","code":"E_AUC","description":"'+ str(e) +'"}'
 
-    def identUser(self):  ## Identification d'un utilisateur
+    def identUser(self):  # Identification d'un utilisateur
       try:
           session = Session()
           res = session.query(User). \
@@ -95,7 +94,7 @@ class Action:
           else :
               self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
 
-    def delUser(self):  ## Suppression d'un utilisateur avec son id
+    def delUser(self):  # Suppression d'un utilisateur avec son id
       if(self.droit == 0):
           try:
               session = Session()
@@ -109,9 +108,10 @@ class Action:
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
-    def delMyUser(self):  ## Suppression d'un utilisateur avec nickname et password
+    def delMyUser(self):  # Suppression d'un utilisateur avec nickname et password
           try:
               session = Session()
+              #res = session.query(User).filter(User.id==self.myJson["data"]["nickname"]).first()
               res = session.query(User). \
                   filter(User.nickname == self.myJson["data"]["nickname"]). \
                   filter(User.password == self.myJson["data"]["password"]).first()
@@ -125,7 +125,7 @@ class Action:
           except Exception as e:
               self.resultat =  '{"status":"error","code":"E_AUM","description":"'+ str(e) +'"}'
 
-    def listUser(self):  ## listing des utilisateurs
+    def listUser(self):  # listing des utilisateurs
       if(self.droit <= 1):
           try:
               session = Session()
@@ -151,7 +151,7 @@ class Action:
     #     EXERCICES
     #////////////////////////////////////////////////////////////////////////////
 
-    def creatExo(self):  ## Creation d'un nouvel exercice
+    def creatExo(self):  # Creation d'un nouvel exercice
       if(self.droit == 0):
           try:
               session = Session()
@@ -167,7 +167,7 @@ class Action:
       else :
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 
-    def loadExo(self):  ## Loading des exercices
+    def loadExo(self):  # Loading des exercices
       try:
           session = Session()
           q = session.query(Exercice)
@@ -184,7 +184,7 @@ class Action:
           self.resultat =  '{"status":"error","code":"E_AEL","description":"'+ str(e) +'"}'
 
 
-    def delExo(self):  ## Suppression d'un exercice
+    def delExo(self):  # Suppression d'un exercice
       if(self.droit == 0):
           try:
               session = Session()
