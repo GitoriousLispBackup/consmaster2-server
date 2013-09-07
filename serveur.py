@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package serveur
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -57,11 +58,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 if __name__ == "__main__":
 
-    # Start logging
+    ## Start logging
     logging.basicConfig(filename='serveur.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
-    # Cree le serveur, liaison de l'adresse HOST sur le port PORT
+    ## Cree le serveur, liaison de l'adresse HOST sur le port PORT
     server = socketserver.TCPServer((HOST, PORT), MyTCPHandler)
 
-    # Active le serveur. Ctrl-C pour le stopper
+    ## Active le serveur. Ctrl-C pour le stopper
     server.serve_forever()
