@@ -89,9 +89,9 @@ class Action:
           self.resultat =  '{"status":"success","code":"S_AUI","data":{"id":'+ident+',"droit":'+droit+'}}'
       except Exception as e:
           if len(res) == 0:
-              self.resultat =  '{"status":"success","code":"S_AUI","data":{}}'
+              self.resultat =  '{"status":"error","code":"E_AUI","description":"utilisateur inexistant"}'
               pass
-          else :
+          else:
               self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
 
     def delUser(self):  # Suppression d'un utilisateur avec son id
