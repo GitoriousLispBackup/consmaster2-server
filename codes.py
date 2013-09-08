@@ -20,7 +20,7 @@ PORT = 9993
 E_AUC = "Erreur: creatUser"
 E_AUI = "Erreur: identUser"
 E_AUD = "Erreur: delUser"
-E_AUL = "Erreur: listtUser"
+E_AUL = "Erreur: listUser"
 E_AUO = "Erreur: vous ne disposez pas des autorisations necessaires"
 E_AUM = "Erreur: Cet utilisateur n'existe pas"
 

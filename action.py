@@ -25,8 +25,13 @@ class Action:
             self.myJson = json.loads(myString)
         except Exception as e:
             self.resultat = '{"status":"error","code":"E_AJS","description":"'+ str(e) +'"}'
+            return
 
-        self.userExist()
+        try:
+            self.userExist()
+        except Exception as e:
+            self.resultat = '{"status":"error","code":"E_AUE","description":"'+ str(e) +'"}'
+            return
 
         # Va executer l'action desirer
         try:
@@ -37,17 +42,14 @@ class Action:
 
 
     def userExist(self):
-      try:
-          session = Session()
-          res = session.query(User). \
-                    filter(User.nickname == self.myJson["nickname"]). \
-                    filter(User.password == self.myJson["password"]).all()
-          session.commit()
+      session = Session()
+      res = session.query(User). \
+                filter(User.nickname == self.myJson["nickname"]). \
+                filter(User.password == self.myJson["password"]).all()
+      session.commit()
 
-          self.droit = res[0].droit
-          session.close()
-      except Exception as e:
-          pass
+      self.droit = res[0].droit
+      session.close()
 
 
     #////////////////////////////////////////////////////////////////////////////
@@ -90,7 +92,6 @@ class Action:
       except Exception as e:
           if len(res) == 0:
               self.resultat =  '{"status":"error","code":"E_AUI","description":"utilisateur inexistant"}'
-              pass
           else:
               self.resultat =  '{"status":"error","code":"E_AUI","description":"'+ str(e) +'"}'
 
