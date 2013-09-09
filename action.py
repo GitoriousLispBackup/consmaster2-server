@@ -246,17 +246,22 @@ class Action:
                 session = Session()
                 data = self.myJson["data"]
 
-                #TODO: utiliser les 2 parmètres à la fois
+                q = session.query(Soumission)
                 if "exo_id" in data:
-                    q = session.query(Soumission).join(Exercice).filter(Exercice.id == data["exo_id"]).all()
-                elif "nickname" in data:
-                    q = session.query(Soumission).join(User).filter(User.nickname == data["nickname"]).all()
-                else:
-                    self.resultat =  '{"status":"error","code":"E_ASL","description":"commande incorrecte"}'
-                    return
+                    q = q.join(Exercice).\
+                            filter(Exercice.id == data["exo_id"])
+                if "nickname" in data:
+                    q = q.join(User).\
+                            filter(User.nickname == data["nickname"])
+                q = q.all()
+                
+                #TODO: si les 2 parmètres manquent, renvoyer une erreur
+                #else:
+                #    self.resultat =  '{"status":"error","code":"E_ASL","description":"commande incorrecte"}'
+                #    return
 
                 session.commit()
-                response = json.dumps(['{"nickname":"'+ item.user.nickname +'", "soumission":"'+ str(item.soumission) +'", "exo_id":"'+ str(item.exo_id) +'"}' for item in q])
+                response = json.dumps([{"nickname": item.user.nickname, "soumission": item.soumission, "exo_id": item.exo_id} for item in q])
                 # print(response)
                 session.close()
                 self.resultat =  '{"status":"success","code":"S_ASL","data":'+ response +'}'

@@ -32,7 +32,7 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
-    # __table_args__ = {'sqlite_autoincrement': True}
+    __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
     nickname = Column(String, nullable=False, unique=True)
