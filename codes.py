@@ -30,7 +30,6 @@ E_AEL = "Erreur: loadExo"
 E_AED = "Erreur: delExo"
 
 E_AJS = "Erreur: JSON format"
-E_AUE = "Erreur: userExist"
 E_AGA = "Erreur: pas de fonction de ce nom"
 E_SRL = "Erreur: pas de variable action"
 

@@ -32,6 +32,7 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
+    # __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
     nickname = Column(String, nullable=False, unique=True)
@@ -77,13 +78,14 @@ class Exercice(Base):
 
 class Soumission(Base):
     __tablename__ = 'soumissions'
-    __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    exo_id = Column(Integer, nullable=False)
+    exo_id = Column(Integer, ForeignKey("exos.id"))
     soumission = Column(String, nullable=False)
     created_date = Column(DateTime, default=datetime.utcnow)
+    user = relationship("User", backref=backref('soumissions', order_by=id))
+    exo = relationship("Exercice", backref=backref('soumissions', order_by=id))
 
     def __init__(self, user_id, exo_id, soumission):
         self.user_id = user_id
