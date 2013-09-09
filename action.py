@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+## @package action
 # COURS   : EDF4REPA - IED - Paris 8
 # PROJET  : consMaster2
 # AUTEUR  : David Calmeille - 11299110@foad.iedparis8.net - L2
@@ -19,8 +20,8 @@ class Action:
     def __init__(self, myString):
         self.myString = myString
         self.resultat = ''
-        self.droit = 2
-        # Verifie si la chaine est au format JSON
+        self.droit = 3
+        ## Verifie si la chaine est au format JSON
         try:
             self.myJson = json.loads(myString)
         except Exception as e:
@@ -42,14 +43,17 @@ class Action:
 
 
     def userExist(self):
-      session = Session()
-      res = session.query(User). \
-                filter(User.nickname == self.myJson["nickname"]). \
-                filter(User.password == self.myJson["password"]).all()
-      session.commit()
-
-      self.droit = res[0].droit
-      session.close()
+        try:
+            session = Session()
+            res = session.query(User). \
+                      filter(User.nickname == self.myJson["nickname"]). \
+                      filter(User.password == self.myJson["password"]).all()
+            session.commit()
+            self.id = res[0].id
+            self.droit = res[0].droit
+            session.close()
+        except Exception:
+            pass
 
 
     #////////////////////////////////////////////////////////////////////////////
@@ -196,6 +200,59 @@ class Action:
               self.resultat =  '{"status":"success","code":"S_AED","data":{"id":'+str(self.myJson["data"]["id"])+'}}'
           except Exception as e:
               self.resultat =  '{"status":"error","code":"E_AED","description":"'+ str(e) +'"}'
+      else:
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
+
+
+    #////////////////////////////////////////////////////////////////////////////
+    #     SOUMISSION
+    #////////////////////////////////////////////////////////////////////////////
+
+    def creatSubm(self):  # Creation d'une nouvelle soumission
+      if self.droit <= 2:
+          try:
+              session = Session()
+              data = self.myJson["data"]
+              new_soum = Soumission(self.id, data["exo_id"], data["soumission"])
+              session.add(new_soum)
+              session.commit()
+              insertId = str(new_soum.id)
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_ASC","data":{"id":'+insertId+'}}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_ASC","description":"'+ str(e) +'"}'
+      else:
+        self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
+
+
+    def listSubm(self):  # listing des soumissions
+      if self.droit <= 0:
+          try:
+              session = Session()
+              data = self.myJson["data"]
+
+              try :
+                  if data["exo_id"]:
+                    q = session.query(Soumission, User).filter(User.id == Soumission.user_id).filter(Soumission.exo_id == data["exo_id"]).all()
+              except Exception:
+                  pass
+
+              try :
+                  if data["nickname"]:
+                    q = session.query(Soumission, User).filter(User.id == Soumission.user_id).filter(User.nickname == data["nickname"]).all()
+              except Exception:
+                  pass
+
+
+              session.commit()
+              response = ""
+              for item in q:
+                  response += ('{"nickname":"'+ item[1].nickname +'", "soumission":"'+ str(item[0].soumission) +'", "exo_id":"'+ str(item[0].exo_id) +'"},')
+              print(response)
+              session.close()
+              self.resultat =  '{"status":"success","code":"S_ASL","data":['+ response[:-1] +']}'
+          except Exception as e:
+              self.resultat =  '{"status":"error","code":"E_ASL","description":"'+ str(e) +'"}'
       else:
         self.resultat =  '{"status":"error","code":"E_AUO","description":"'+ E_AUO +'"}'
 

@@ -20,7 +20,7 @@ try:
     from sqlalchemy.orm import sessionmaker
     from sqlalchemy.orm import scoped_session
     from sqlalchemy.ext.declarative import declarative_base
-    from sqlalchemy import Column, Integer, String, Interval, DateTime
+    from sqlalchemy import Column, Integer, String, Interval, DateTime, join
     from sqlalchemy import ForeignKey
     from sqlalchemy.orm import relationship, backref
 except:
@@ -72,7 +72,29 @@ class Exercice(Base):
         self.raw = raw
 
     def __repr__(self):
-      return "<Exercice('%s' '%s', '%s')>" % (self.name, self.type, self.level)
+      return "<Exercice('%s', '%s', '%s')>" % (self.name, self.type, self.level)
+
+
+class Soumission(Base):
+    __tablename__ = 'soumissions'
+    __table_args__ = {'sqlite_autoincrement': True}
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    exo_id = Column(Integer, nullable=False)
+    soumission = Column(String, nullable=False)
+    created_date = Column(DateTime, default=datetime.utcnow)
+
+    def __init__(self, user_id, exo_id, soumission):
+        self.user_id = user_id
+        self.exo_id = exo_id
+        self.soumission = soumission
+
+    def __repr__(self):
+      return "<Soumission('%s', '%s', '%s')>" % (self.user_id, self.exo_id, self.soumission)
+
+
+
 
 
 engine = create_engine(BDD, echo=True)

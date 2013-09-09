@@ -46,13 +46,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                   logging.warning(str(self.client_address[0]) + " " + new_a.myJson["action"])
               except Exception as e:
                   self.resultat = '{"status":"error","code":"E_SRL","description":"'+ str(e) +'"}'
-              #print(new_d.recomp)
-              #print("action", new_a.resultat)
               if new_d.recomp == "On":
                   new_c = compression(new_a.resultat)
                   new_c.dataCompression()
                   new_a.resultat = new_c.comp
-                  #print("compression 2", new_a.resultat)
               self.request.sendall(bytes(str(new_a.resultat), 'utf-8'))
 
 

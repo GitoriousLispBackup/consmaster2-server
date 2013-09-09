@@ -91,7 +91,7 @@ if __name__ == "__main__":
     ts1 = time.time()
     print("##############################################################")
     print("Creation d'un nouvel utilisateur nickname:" + str(ts1))
-    data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":1}}' # OK
+    data = '{"action":"creatUser", '+ str(userI) +' "data":{"nickname": "' + str(ts1) +'", "nom": "name", "prenom":"surname", "email": "test@ied.fr", "password":"emzo123", "droit":2}}'
     test(data, "success", "Creation d'un nouvel utilisateur")
 
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     ## Listing des utilisateurs
     print("##############################################################")
     print('Listing des utilisateurs : "prenom":"surname","droit":1')
-    data = '{"action":"listUser", '+ str(userI) +' "data":{"prenom":"surname","droit":1}}'
+    data = '{"action":"listUser", '+ str(userI) +' "data":{"prenom":"surname","droit":2}}'
     test(data, "success", "Listing des utilisateurs")
 
     print()

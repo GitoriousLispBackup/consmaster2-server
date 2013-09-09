@@ -24,8 +24,8 @@ password = "superU"
 #password = "jd123"
 
 # 2
-#nickname = "JD2"
-#password = "jd123"
+#nickname = "david"
+#password = "david"
 
 #nickname = ""
 #password = ""
@@ -41,7 +41,7 @@ password = "superU"
 #data = '{"action":"identUser", "data":{"nickname": "JDa", "password":"jd123"}}'
 
 ## Suppression d'un utilisateur
-data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
+#data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 
 ## Suppression d'un utilisateur
 #data = '{"action":"delUser", "nickname": "'+ nickname +'", "password":"'+ password +'","data":{"id": 4}}'
@@ -70,6 +70,24 @@ data = '{"action":"delMyUser", "data":{"nickname": "JD", "password":"jd123"}}'
 
 ##  Suppression d'un exercice
 #data = '{"action":"delExo", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"id": 3}}'
+
+#////////////////////////////////////////////////////////////////////////////
+
+
+#////////////////////////////////////////////////////////////////////////////
+#   USAGE: SOUMISSION
+#////////////////////////////////////////////////////////////////////////////
+
+## Creation d'une nouvelle soumission
+
+#data = '{"action":"creatSubm", "nickname": "'+ nickname +'", "password":"'+ password +'", "data":{"exo_id": 8, "soumission":"soumission de nickname"}}'
+
+
+# listing des soumissions
+
+data = '{"action":"listSubm", "nickname": "superU", "password":"superU" , "data":{"exo_id": "8"}}'
+
+#data = '{"action":"listSubm", "nickname": "superU", "password":"superU" , "data":{"nickname": "superU"}}'
 
 #////////////////////////////////////////////////////////////////////////////
 

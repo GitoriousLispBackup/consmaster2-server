@@ -34,6 +34,9 @@ E_AUE = "Erreur: userExist"
 E_AGA = "Erreur: pas de fonction de ce nom"
 E_SRL = "Erreur: pas de variable action"
 
+E_ASC = "Erreur: creaSoumission"
+
+
 ## Code Success Action
 S_AUC = "creatUser"
 S_AUI = "identUser"
@@ -44,6 +47,8 @@ S_AUM = "delMyUser"
 S_AEC = "creatExo"
 S_AEL = "loadExo"
 S_AED = "delExo"
+
+S_ASC = "creaSoumission"
 
 
 
