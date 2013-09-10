@@ -74,7 +74,8 @@ class Action:
             if res:
                 self.resultat =  '{"status":"error","code":"E_AUC","description":"utilisateur deja existant"}'
             else:
-                new_user = User(self.myJson["data"]["nickname"], self.myJson["data"].get("nom"), self.myJson["data"].get("prenom"), self.myJson["data"]["email"], self.myJson["data"]["password"], droit)
+                data = self.myJson["data"]
+                new_user = User(data["nickname"], data.get("nom"), data.get("prenom"), data["email"], data["password"], droit)
                 session.add(new_user)
                 session.commit()
                 insertId = str(new_user.id)
@@ -149,7 +150,7 @@ class Action:
                     else:
                         q = q.filter(getattr(User, item).like("%%%s%%" % value))
                 session.commit()
-                response = json.dumps([{"id": item.id "nom": item.nom, "prenom": item.prenom, "email": item.email} 
+                response = json.dumps([{"id": item.id, "nom": item.nom, "prenom": item.prenom, "email": item.email} 
 						for item in q])
                 session.close()
                 self.resultat =  '{"status":"success","code":"S_AUL","data":'+ response + '}'
