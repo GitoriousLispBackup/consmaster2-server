@@ -97,8 +97,6 @@ class Soumission(Base):
 
 
 
-
-
 engine = create_engine(BDD, echo=True)
 
 ## Create tables if they don't exist.

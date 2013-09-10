@@ -149,11 +149,10 @@ class Action:
                     else:
                         q = q.filter(getattr(User, item).like("%%%s%%" % value))
                 session.commit()
-                response = ""
-                for item in q:
-                    response += ('{"id":' + str(item.id) +',"nom":"'+ item.nom +'","prenom":"'+ item.prenom + '","email":"'+ item.email + '"},')
+                response = json.dumps([{"id": item.id "nom": item.nom, "prenom": item.prenom, "email": item.email} 
+						for item in q])
                 session.close()
-                self.resultat =  '{"status":"success","code":"S_AUL","data":['+ response[:-1] +']}'
+                self.resultat =  '{"status":"success","code":"S_AUL","data":'+ response + '}'
             except Exception as e:
                 print_exc(limit=3)
                 self.resultat =  '{"status":"error","code":"E_AUL","description":"'+ str(e) +'"}'
