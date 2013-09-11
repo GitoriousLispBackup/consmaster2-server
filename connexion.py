@@ -13,16 +13,17 @@
 
 import socket
 import time
-from codes import *
 import json
 import sys
-from compress import *
+from traceback import print_exc
 
+from compress import *
+from codes import *
 
 
 class Connexion:
 
-    def __init__(self, mess='', comp=COMP, port=PORT, host=HOST):
+    def __init__(self, mess='', comp=COMP, host=HOST, port=PORT):
         ## initilisation des variables
         self.mess = mess
         self.port = port
@@ -67,8 +68,9 @@ class Connexion:
     def connection(self):
         try:
             ## Traduit le host name en adresse ip
-            self.remote_ip = socket.gethostbyname( self.host )
+            self.remote_ip = socket.gethostbyname(self.host)
         except socket.gaierror:
+            print_exc(limit=2)
             self.erreur = 'Erreur: Nom de l\'hôte ne peut être résolu.'
             self.result = '{"status":"error","code":"E_CHO","description":"Erreur: Nom de l\'hôte ne peut être résolu."}'
             return 1
@@ -78,6 +80,7 @@ class Connexion:
             self.s.connect((self.remote_ip , self.port))
             ## print ('Socket Connecté à ' + self.host + ' sur ip: ' + self.remote_ip)
         except socket.error as e:
+            print_exc(limit=2)
             self.erreur = "Erreur:Impossible de se connecter à " + self.host + " sur le port: " + str(self.port)
             self.result = '{"status":"error","code":"E_CCO","description":"Erreur:Impossible de se connecter à ' + self.host + ' sur le port: ' + str(self.port) + '"}'
             return 1
@@ -93,9 +96,6 @@ class Connexion:
             self.erreur = 'Erreur: Impossible d\'envoyer le message'
             self.result = '{"status":"error","code":"E_CSE","description":"Erreur: Impossible d\'envoiyer le message"}'
             return 1
-
-
-        ## print ('Message envoyer avec succès')
 
 
         def reception(leSocket,timeOut=1):
@@ -137,13 +137,10 @@ class Connexion:
         new_d = decompression(resul)
         myrecomp = new_d.dataDecompression()
 
-        if (new_d.recomp == "On"):
+        if new_d.recomp == "On":
             self.result =  myrecomp
         else:
             self.result = resul
         ## ferme le socket
         self.s.close()
-
-
-
 
